@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>foehnix15</name>
+	<comment></comment>
+	<projects>
+		<project>appcompat_v7</project>
+		<project>appcompat_v7_2</project>
+		<project>button_demo</project>
+		<project>de.vogella.android.widget.example</project>
+		<project>helloworld2</project>
+		<project>stockix</project>
+		<project>stockix2</project>
+		<project>wstockix1</project>
+		<project>wstockix2</project>
+		<project>wstockix3</project>
+		<project>wstockix4</project>
+		<project>wstockix5</project>
+		<project>wstockix6</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>
