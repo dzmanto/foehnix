@@ -9,4 +9,4 @@ Foehnix features
 - Data sourced from MeteoSwiss.
 
 ![][foehniximage]
-[foehniximage]: http://ecx.images-amazon.com/images/I/91dttZ4w07L.png
+[foehniximage]: http://ecx.images-amazon.com/images/I/91dttZ4w07L._SY300_.png
