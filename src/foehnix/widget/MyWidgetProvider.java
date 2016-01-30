@@ -157,7 +157,7 @@ static String formattedDate;
 	  remoteViews.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
 	  remoteViews.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
       String surl = new String();
-      surl = new String("http://data.geo.admin.ch.s3.amazonaws.com/ch.meteoschweiz.swissmetnet/VQHA69.txt");
+      surl = new String("http://data.geo.admin.ch.s3.amazonaws.com/ch.meteoschweiz.swissmetnet/VQHA69.csv");
       new dspclass(context, remoteViews, widgetId, appWidgetManager, R.id.firststockview).execute(surl);
 
       // Register an onClickListener
