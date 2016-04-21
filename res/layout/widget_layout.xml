@@ -26,6 +26,7 @@
  		android:layout_marginLeft="20dip"
  		android:background="@android:color/transparent"
  		android:clickable="true"
+ 		android:textAllCaps="false"
         android:text="@string/stock_dsp" />
 
        <Button
@@ -38,6 +39,7 @@
         android:textSize="20sp"
         android:background="@android:color/transparent"
  		android:clickable="true"
+ 		android:textAllCaps="false"
         android:text="@string/stock_dsp" />
        
      <TextView
