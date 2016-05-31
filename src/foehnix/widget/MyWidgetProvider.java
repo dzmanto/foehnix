@@ -8,9 +8,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.zip.GZIPInputStream;
@@ -348,26 +350,25 @@ static String formattedDate;
            secondtextResult="-";
            thirdtextResult="-";
            deltapress=-100;
-           DecimalFormat df = new DecimalFormat("0.0");
            if(klopress!=-1&&lugpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = lugpress - klopress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (smapress!=-1&&lugpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = lugpress - smapress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (klopress!=-1&&locpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = locpress - klopress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (smapress!=-1&&locpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = locpress - smapress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            }
            if (deltapress >= 0 && altwnd!=-1) {
         	   secondtextResult=deg2abc(altdir);
-        	   secondtextResult = secondtextResult + df.format(altwnd);
+        	   secondtextResult = secondtextResult + rnd1dig(altwnd);
            }  else if(locwnd!=-1) {
         	   secondtextResult=deg2abc(locdir);
-        	   secondtextResult = secondtextResult + df.format(locwnd);
+        	   secondtextResult = secondtextResult + rnd1dig(locwnd);
            }
            thirdtextResult = "";
            if(abodir!=-1&&abownd!=-1) {
@@ -396,8 +397,7 @@ static String formattedDate;
           } catch (Exception e) {
            e.printStackTrace();
            firsttextResult = "-";
-          }
-          
+          }     
        return null; 
       }
       
@@ -464,6 +464,11 @@ static String formattedDate;
 	   		   str = "SE@";
 	   	   }
     	  return(str);
+      }
+      
+      public double rnd1dig(double kritz) {
+    	  kritz = Math.round(10*kritz);
+    	  return(kritz/10);
       }
   }
  

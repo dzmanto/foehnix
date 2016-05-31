@@ -3,19 +3,9 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dip"
+    android:layout_margin="2dip"
     android:layout_marginRight="20dip"
     android:background="@drawable/myshape" >
-
-    <TextView
-        android:id="@+id/update"
-        style="@android:style/TextAppearance.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/empty_string" >
-    </TextView>
 
        <Button
         android:id="@+id/firststockview"
@@ -94,5 +84,16 @@
             android:layout_alignLeft="@+id/thirdstockview"
             android:text="@string/stock_dsp"
             android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/update"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/empty_string" />
      
 </RelativeLayout> 
