@@ -8,9 +8,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.zip.GZIPInputStream;
@@ -38,6 +40,7 @@ import android.widget.RemoteViews;
 public class MyWidgetProvider extends AppWidgetProvider {
 public static final String ACTION_MUELL = "Muell";
 static String formattedDate;
+static int disablenite=0;
 
   @Override
   public void onDeleted(Context context, int[] appWidgetIds) {
@@ -50,6 +53,9 @@ static String formattedDate;
 	  sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 	  alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	  alarmManager.cancel(sender);
+	  // ensure the widget will restart even after a delete event at night
+	  disablenite=0;
+	  
 	  super.onDeleted(context, appWidgetIds);
   }
 
@@ -60,7 +66,10 @@ static String formattedDate;
 	PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
  	AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
  	alarmManager.cancel(sender);
- 	super.onDisabled(context);
+	// ensure the widget will restart even after a disable event at night
+	disablenite=0;
+ 	
+	super.onDisabled(context);
   }
 
   @Override
@@ -86,7 +95,10 @@ static String formattedDate;
       }
       
       if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")||"android.appwidget.action.BOOT_COMPLETED".equalsIgnoreCase(intent.getAction())){
-	        PendingIntent anIntent=PendingIntent.getBroadcast(context, 0, new Intent("ContactWidgetUpdate"), PendingIntent.FLAG_UPDATE_CURRENT);
+	        //ensure the widget will start even after a reboot at nite
+    	    disablenite=0;
+    	    
+    	    PendingIntent anIntent=PendingIntent.getBroadcast(context, 0, new Intent("ContactWidgetUpdate"), PendingIntent.FLAG_UPDATE_CURRENT);
 	  		AlarmManager alarmMgr=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	  		alarmMgr.cancel(anIntent);
 	  		alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_FIFTEEN_MINUTES, anIntent);
@@ -348,26 +360,25 @@ static String formattedDate;
            secondtextResult="-";
            thirdtextResult="-";
            deltapress=-100;
-           DecimalFormat df = new DecimalFormat("0.0");
            if(klopress!=-1&&lugpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = lugpress - klopress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (smapress!=-1&&lugpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = lugpress - smapress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (klopress!=-1&&locpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = locpress - klopress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            } else if (smapress!=-1&&locpress!=-1&&TextViewID==R.id.firststockview) {
         	   deltapress = locpress - smapress;
-        	   firsttextResult = df.format(deltapress);
+        	   firsttextResult = "" + rnd1dig(deltapress);
            }
            if (deltapress >= 0 && altwnd!=-1) {
         	   secondtextResult=deg2abc(altdir);
-        	   secondtextResult = secondtextResult + df.format(altwnd);
+        	   secondtextResult = secondtextResult + rnd1dig(altwnd);
            }  else if(locwnd!=-1) {
         	   secondtextResult=deg2abc(locdir);
-        	   secondtextResult = secondtextResult + df.format(locwnd);
+        	   secondtextResult = secondtextResult + rnd1dig(locwnd);
            }
            thirdtextResult = "";
            if(abodir!=-1&&abownd!=-1) {
@@ -396,8 +407,7 @@ static String formattedDate;
           } catch (Exception e) {
            e.printStackTrace();
            firsttextResult = "-";
-          }
-          
+          }     
        return null; 
       }
       
@@ -465,6 +475,11 @@ static String formattedDate;
 	   	   }
     	  return(str);
       }
+      
+      public double rnd1dig(double kritz) {
+    	  kritz = Math.round(10*kritz);
+    	  return(kritz/10);
+      }
   }
  
  public boolean keeponseparated(String[] separated) {
@@ -489,6 +504,10 @@ static String formattedDate;
 	  int mm;
 	  Calendar c = Calendar.getInstance();
 	  SimpleDateFormat df = new SimpleDateFormat("mm");
+	  if(disablenite<13) {
+		  disablenite++;
+		  return(false);
+	  }
       mmdate = df.format(c.getTime());
       mm=Integer.valueOf(mmdate);
       if(mm>-1&&mm<17) {
