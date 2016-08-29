@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -127,7 +128,7 @@ static int disablenite=0;
       if("secondstockviewclicked".equalsIgnoreCase(intent.getAction())){
           Log.w("secondstockview","clicked");
           
-          String url = "http://windundwetter.ch/Stations/filter/abo,alt,chu,cim,loc/show/time,wind,windarrow,qff";
+          String url = "http://windundwetter.ch/Stations/filter/abo,alt,chu,cim,loc,neu/show/time,wind,windarrow,qff";
           Intent i = new Intent(Intent.ACTION_VIEW);
           i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           i.setData(Uri.parse(url));
@@ -188,7 +189,7 @@ static int disablenite=0;
     }
   }
    
- private class dspclass extends AsyncTask<String, Void, Void>{
+ private class dspclass extends AsyncTask<String, Void, Void> {
       
       private String firsttextResult = new String();
       private String secondtextResult = new String();
@@ -232,28 +233,31 @@ static int disablenite=0;
       protected Void doInBackground(String...murls) {
      
     	  URL textUrl;
-    	  String lugstr= "";
-    	  String locstr="";
-          String klostr="";
-          String altstr="";
-          String cimstr="";
           String abostr="";
+          String altstr="";
           String chustr="";
+          String cimstr="";
+    	  String klostr="";
+    	  String locstr="";
+    	  String lugstr="";
+    	  String neustr="";
           String smastr="";
-          double lugpress=-1;
-          double klopress=-1;
-          double locpress=-1;
-          double smapress=-1;
-          double altwnd=-1;
-          double altdir=-1;
-          double cimwnd=-1;
-          double cimdir=-1;
-          double locwnd=-1;
-          double locdir=-1;
-          double abownd=-1;
           double abodir=-1;
-          double chuwnd=-1;
+          double abownd=-1;
+          double altdir=-1;
+          double altwnd=-1;
           double chudir=-1;
+          double chuwnd=-1;
+          double cimdir=-1;
+          double cimwnd=-1;
+          double klopress=-1;
+          double locdir=-1;
+          double locpress=-1;
+          double locwnd=-1;
+          double lugpress=-1;
+          double neudir=-1;
+          double neuwnd=-1;
+          double smapress=-1;
           
           try {
            cpy=murls[0];
@@ -318,8 +322,6 @@ static int disablenite=0;
     			   cimdir = Double.parseDouble(separated[5]);
     			   cimwnd = Double.parseDouble(separated[8]);
     			   cimstr = "Cimetta " + deg2abc(cimdir).trim() + cimwnd;
-    			   Log.w("CIMETTA", "wind " + cimwnd);
-    			   Log.w("CIMETTA", "wind dir " + cimdir);
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("OTL")) {
     			   locstr = StringBuffer;
@@ -327,7 +329,6 @@ static int disablenite=0;
     			   int l = separated.length;
     			   if(separated[l-1].trim().length()>0&&!separated[l-1].trim().equals("-")) {
 	    			   locpress = Double.parseDouble(separated[l-1]);
-	    			   Log.w("LOCARNO", "pressure " + klopress);
 	    		   }
     			   if(keeponseparated(separated)) {
     			   locdir = Double.parseDouble(separated[5]);
@@ -343,8 +344,6 @@ static int disablenite=0;
     			   abodir = Double.parseDouble(separated[5]);
     			   abownd = Double.parseDouble(separated[8]);
     			   abostr = "Adelboden " + deg2abc(abodir).trim() + abownd;
-    			   Log.w("Adelboden", "wind " + abownd);
-    			   Log.w("Adelboden", "wind dir " + abodir);
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("CHU")) {
     			   chustr = StringBuffer;
@@ -353,6 +352,14 @@ static int disablenite=0;
     			   chudir = Double.parseDouble(separated[5]);
     			   chuwnd = Double.parseDouble(separated[8]);
     			   chustr = "Chur " + deg2abc(chudir).trim() + chuwnd;
+    			   }
+    		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("NEU")) {
+    			   neustr = StringBuffer;
+    			   String[] separated = neustr.split("\\|");
+    			   if(keeponseparated(separated)) {
+    			   neudir = Double.parseDouble(separated[5]);
+    			   neuwnd = Double.parseDouble(separated[8]);
+    			   neustr = "Neuchâtel " + deg2abc(neudir).trim() + neuwnd;
     			   }
     		   }
            }
@@ -373,7 +380,14 @@ static int disablenite=0;
         	   deltapress = locpress - smapress;
         	   firsttextResult = "" + rnd1dig(deltapress);
            }
-           if (deltapress >= 0 && altwnd!=-1) {
+           if (deltapress <= 3 && deltapress >=-3 && neuwnd>=40) {
+        	   secondtextResult=deg2abc(neudir);
+        	   secondtextResult = secondtextResult + rnd1dig(neuwnd);
+        	   GlobalConstants.lastneuoverride = new Date();
+           } else if (ninetyminutestoolate(GlobalConstants.lastneuoverride) && deltapress <= 3 && deltapress >=-3) {
+        	   secondtextResult=deg2abc(neudir);
+        	   secondtextResult = secondtextResult + rnd1dig(neuwnd);
+           } else if (deltapress >= 0 && altwnd!=-1) {
         	   secondtextResult=deg2abc(altdir);
         	   secondtextResult = secondtextResult + rnd1dig(altwnd);
            }  else if(locwnd!=-1) {
@@ -394,7 +408,10 @@ static int disablenite=0;
         	   thirdtextResult = thirdtextResult + cimstr + " ";
            }
            if(locdir!=-1&&locwnd!=-1) {
-        	   thirdtextResult = thirdtextResult + locstr;
+        	   thirdtextResult = thirdtextResult + locstr + " ";
+           }
+           if(neudir!=-1&&neuwnd!=-1) {
+        	   thirdtextResult = thirdtextResult + neustr;
            }
            bufferReader.close();
            Log.w("bufferReader", "closed bufferedreader");
@@ -418,7 +435,10 @@ static int disablenite=0;
        if(!firsttextResult.equals("-")&&TextViewID==R.id.firststockview) {
     	   cpy = "<html><a href=\"http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html\">" + "Δp Lugano-Kloten " + "</a><b> " + firsttextResult + " hPa</b></html>";
     	   views.setTextViewText(R.id.firststockview, Html.fromHtml(cpy));
-    	   if(deltapress >= 0) {
+    	   
+           if (ninetyminutestoolate(GlobalConstants.lastneuoverride) && deltapress <= 3 && deltapress >=-3) {
+        	   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
+           } else if(deltapress >= 0) {
     		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Altdorf wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
     	   } else {
     		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Locarno wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
@@ -476,9 +496,27 @@ static int disablenite=0;
     	  return(str);
       }
       
+      
       public double rnd1dig(double kritz) {
     	  kritz = Math.round(10*kritz);
     	  return(kritz/10);
+      }
+      
+      public boolean ninetyminutestoolate(Date tlastneuoverride) {
+    	  Date datenow;
+    	  long diff;
+    	  long diffMinutes;
+    	  if(tlastneuoverride==null) {
+    		  return(false);
+    	  }
+    	  datenow = new Date();
+    	  diff=datenow.getTime()-tlastneuoverride.getTime();
+    	  diffMinutes = diff / (60 * 1000);
+    	  if(diffMinutes <= 90) {
+    		  return(true);
+    	  } else {
+    		  return(false);
+    	  }
       }
   }
  
@@ -529,4 +567,4 @@ static int disablenite=0;
      intent.setAction(action);
      return PendingIntent.getBroadcast(context, 0, intent, 0);
   }
-} 
+}
