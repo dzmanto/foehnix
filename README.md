@@ -1,5 +1,4 @@
-# Foehnix
-Foehnix Paraglider Widget for Android
+# Foehnix Paraglider Widget for Android
 
 Foehnix features
 - Assessment of Foehn conditions for pilots.
