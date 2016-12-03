@@ -29,11 +29,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -380,6 +382,7 @@ static int disablenite=0;
         	   deltapress = locpress - smapress;
         	   firsttextResult = "" + rnd1dig(deltapress);
            }
+           
            if (deltapress <= 3 && deltapress >=-3 && neuwnd>=40) {
         	   secondtextResult=deg2abc(neudir);
         	   secondtextResult = secondtextResult + rnd1dig(neuwnd);
@@ -433,8 +436,11 @@ static int disablenite=0;
        Log.w("onPostExecute", "commenced with firsttextResult " + firsttextResult);     
        
        if(!firsttextResult.equals("-")&&TextViewID==R.id.firststockview) {
-    	   cpy = "<html><a href=\"http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html\">" + "Δp Lugano-Kloten " + "</a><b> " + firsttextResult + " hPa</b></html>";
+    	   cpy = "<html><a href=\"http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html\">" + "Δp Lugano-Kloten " + "</a><b> " + firsttextResult + " hPa" + updownfunkypress(deltapress) + "</b></html>";
     	   views.setTextViewText(R.id.firststockview, Html.fromHtml(cpy));
+    	   
+    	   // store deltapress value in GlobalConstants
+           fortyfiveminutestoolate(deltapress);
     	   
            if (ninetyminutestoolate(GlobalConstants.lastneuoverride) && deltapress <= 3 && deltapress >=-3) {
         	   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
@@ -460,6 +466,16 @@ static int disablenite=0;
     	   views.setInt(R.id.updatetime, "setTextColor", Color.WHITE);
     	   views.setTextViewText(R.id.source,"Source: MeteoSwiss");
     	   views.setInt(R.id.source, "setTextColor", Color.WHITE);
+    	   
+    	   // save to prefs
+    	   SharedPreferences mPrefs = cntxt.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+    	   SharedPreferences.Editor editor = mPrefs.edit();
+    	   editor.putString("firststockview",firsttextResult);
+    	   editor.putString("secondstockview",cpy);
+    	   editor.putString("thirdstockview",thirdtextResult);
+    	   editor.putString("source","Source: MeteoSwiss");
+    	   editor.putString("updatetime",formattedDate);
+    	   editor.apply();
        } else if(firsttextResult.equals("-")) {
     	   views.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
     	   views.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
@@ -467,6 +483,16 @@ static int disablenite=0;
     	   views.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
     	   views.setInt(R.id.source, "setTextColor", Color.GRAY);
     	   views.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh);
+    	   
+    	   // load from prefs
+    	   SharedPreferences mPrefs = cntxt.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+    	   String interimresult = mPrefs.getString("firststockview","...loading...");
+    	   String interimcpy = "<html><a href=\"http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html\">" + "Δp Lugano-Kloten " + "</a><b> " + interimresult + " hPa" + "</b></html>";
+    	   views.setTextViewText(R.id.firststockview, Html.fromHtml(interimcpy));
+    	   views.setTextViewText(R.id.secondstockview, Html.fromHtml(mPrefs.getString("secondstockview","...loading...")));
+    	   views.setTextViewText(R.id.thirdstockview, mPrefs.getString("thirdstockview","...loading..."));
+    	   views.setTextViewText(R.id.source, mPrefs.getString("source","...loading..."));
+    	   views.setTextViewText(R.id.updatetime, mPrefs.getString("updatetime","...loading..."));
     	   // try and reload within 1 minute
     	   MyWidgetProvider.formattedDate = null;
        }
@@ -518,6 +544,55 @@ static int disablenite=0;
     		  return(false);
     	  }
       }
+      
+  	public void fortyfiveminutestoolate(double tdeltapress) {
+		  Date datenow;
+		  long diff;
+		  long diffMinutes;
+		  datenow = new Date();
+		  // initialize values
+		  if(GlobalConstants.lastdpoverride==null) {
+			  GlobalConstants.lastlastdeltapress=tdeltapress;
+			  GlobalConstants.lastdeltapress=tdeltapress;
+			  GlobalConstants.lastdpoverride=datenow;
+		  }
+		  diff=datenow.getTime()-GlobalConstants.lastdpoverride.getTime();
+		  diffMinutes = diff / (60 * 1000);
+		  // shift register
+		  if(diffMinutes >= 45) {
+			  GlobalConstants.lastlastdeltapress=GlobalConstants.lastdeltapress;
+			  GlobalConstants.lastdeltapress=tdeltapress;
+			  GlobalConstants.lastdpoverride=datenow;
+		  }
+	}
+
+	public String updownfunkypress(double tdeltapress) {
+		  Date datenow;
+		  long diff;
+		  long diffMinutes;
+		  double relpress;
+		  // return zero String while nothing is initialized
+		  if(GlobalConstants.lastdpoverride==null||GlobalConstants.lastdeltapress==-100) {
+			  return("");
+		  }
+		  datenow = new Date();
+		  diff=datenow.getTime()-GlobalConstants.lastdpoverride.getTime();
+		  diffMinutes = diff / (60 * 1000);
+		  
+		  // make sure relpress is older than 15 minutes
+		  relpress=GlobalConstants.lastdeltapress;
+		  if(diffMinutes <= 45) {
+			  relpress=GlobalConstants.lastlastdeltapress;
+		  }
+		  
+		  if(Math.abs(tdeltapress-relpress)<0.2) { 
+			  return("→");
+		  } else if((tdeltapress-relpress)>0) { 
+			  return("↑");
+		  } else {
+			  return("↓");
+		  }
+	}
   }
  
  public boolean keeponseparated(String[] separated) {
@@ -560,11 +635,10 @@ static int disablenite=0;
 		  return(false);
 	  }
   }
-
- 
-  protected PendingIntent getPendingSelfIntent(Context context, String action) {
-     Intent intent = new Intent(context, getClass());
-     intent.setAction(action);
-     return PendingIntent.getBroadcast(context, 0, intent, 0);
-  }
+		
+	protected PendingIntent getPendingSelfIntent(Context context, String action) {
+	     Intent intent = new Intent(context, getClass());
+	     intent.setAction(action);
+	     return PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
 }
