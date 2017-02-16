@@ -987,6 +987,9 @@ containing a value of this type.
         public static final int myshape=0x7f02005a;
         public static final int refresh=0x7f02005b;
         public static final int refresh_gray=0x7f02005c;
+        public static final int share_icon=0x7f02005d;
+        public static final int share_icon_gray=0x7f02005e;
+        public static final int share_icon_white=0x7f02005f;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;
@@ -1000,7 +1003,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f060044;
+        public static final int action_settings=0x7f060045;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
@@ -1023,6 +1026,7 @@ containing a value of this type.
         public static final int layout=0x7f06003c;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
+        public static final int menu_item_share=0x7f060046;
         public static final int middle=0x7f060012;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
@@ -1041,6 +1045,7 @@ containing a value of this type.
         public static final int search_src_text=0x7f060037;
         public static final int search_voice_btn=0x7f06003b;
         public static final int secondstockview=0x7f06003f;
+        public static final int sharebutton=0x7f060044;
         public static final int shortcut=0x7f06002e;
         public static final int showCustom=0x7f060007;
         public static final int showHome=0x7f060004;
@@ -1160,9 +1165,10 @@ containing a value of this type.
         public static final int action_settings=0x7f0b000e;
         public static final int app_name=0x7f0b000d;
         public static final int app_title=0x7f0b000f;
-        public static final int empty_string=0x7f0b0011;
-        public static final int stock_dsp=0x7f0b0010;
-        public static final int update_button=0x7f0b0012;
+        public static final int empty_string=0x7f0b0010;
+        public static final int share=0x7f0b0011;
+        public static final int stock_dsp=0x7f0b0012;
+        public static final int update_button=0x7f0b0013;
     }
     public static final class style {
         /** 

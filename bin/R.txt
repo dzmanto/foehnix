@@ -232,6 +232,9 @@ int drawable ic_launcher 0x7f020059
 int drawable myshape 0x7f02005a
 int drawable refresh 0x7f02005b
 int drawable refresh_gray 0x7f02005c
+int drawable share_icon 0x7f02005d
+int drawable share_icon_gray 0x7f02005e
+int drawable share_icon_white 0x7f02005f
 int id action_bar 0x7f06001c
 int id action_bar_activity_content 0x7f060015
 int id action_bar_container 0x7f06001b
@@ -243,7 +246,7 @@ int id action_context_bar 0x7f06001d
 int id action_menu_divider 0x7f060016
 int id action_menu_presenter 0x7f060017
 int id action_mode_close_button 0x7f060024
-int id action_settings 0x7f060044
+int id action_settings 0x7f060045
 int id activity_chooser_view_content 0x7f060025
 int id always 0x7f06000b
 int id beginning 0x7f060011
@@ -266,6 +269,7 @@ int id image 0x7f060027
 int id layout 0x7f06003c
 int id listMode 0x7f060001
 int id list_item 0x7f060029
+int id menu_item_share 0x7f060046
 int id middle 0x7f060012
 int id never 0x7f060009
 int id none 0x7f060010
@@ -284,6 +288,7 @@ int id search_plate 0x7f060036
 int id search_src_text 0x7f060037
 int id search_voice_btn 0x7f06003b
 int id secondstockview 0x7f06003f
+int id sharebutton 0x7f060044
 int id shortcut 0x7f06002e
 int id showCustom 0x7f060007
 int id showHome 0x7f060004
@@ -346,9 +351,10 @@ int string abc_shareactionprovider_share_with_application 0x7f0b000b
 int string action_settings 0x7f0b000e
 int string app_name 0x7f0b000d
 int string app_title 0x7f0b000f
-int string empty_string 0x7f0b0011
-int string stock_dsp 0x7f0b0010
-int string update_button 0x7f0b0012
+int string empty_string 0x7f0b0010
+int string share 0x7f0b0011
+int string stock_dsp 0x7f0b0012
+int string update_button 0x7f0b0013
 int style AppBaseTheme 0x7f0c0083
 int style AppTheme 0x7f0c0084
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0c0063

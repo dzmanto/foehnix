@@ -45,6 +45,11 @@ public static final String ACTION_MUELL = "Muell";
 static String formattedDate;
 static int disablenite=0;
 
+  public double rnd1dig(double kritz) {
+	  kritz = Math.round(10*kritz);
+	  return(kritz/10);
+  }
+
   @Override
   public void onDeleted(Context context, int[] appWidgetIds) {
 	  Log.w(this.getClass().getName(),"commenced onDeleted");
@@ -71,7 +76,7 @@ static int disablenite=0;
  	alarmManager.cancel(sender);
 	// ensure the widget will restart even after a disable event at night
 	disablenite=0;
- 	
+    
 	super.onDisabled(context);
   }
 
@@ -137,6 +142,47 @@ static int disablenite=0;
           context.startActivity(i);
       }
       
+      if("shareactionclicked".equalsIgnoreCase(intent.getAction())){
+          Log.w("share action","clicked");
+          
+          // register an intent for sharing
+      	  Intent i=new Intent(android.content.Intent.ACTION_SEND);
+      	  i.setType("text/plain");
+      	  i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      	  i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+      	  if(GlobalConstants.currentdeltapress!=-100) {
+	      	  // Add data to the intent, the receiving app will decide what to do with it.
+      		  String txtmsg = "Δp Lugano-Kloten " + rnd1dig(GlobalConstants.currentdeltapress) + " hPa\nWind gusts [km/h]:";
+              if(GlobalConstants.abodir!=-1&&GlobalConstants.abownd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.abostr;
+              }
+              if(GlobalConstants.altdir!=-1&&GlobalConstants.altwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.altstr;
+              }
+              if(GlobalConstants.chudir!=-1&&GlobalConstants.chuwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.chustr;
+              }
+              if(GlobalConstants.cimdir!=-1&&GlobalConstants.cimwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.cimstr;
+              }
+              if(GlobalConstants.locdir!=-1&&GlobalConstants.locwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.locstr;
+              }
+              if(GlobalConstants.lugdir!=-1&&GlobalConstants.lugwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.lugstr;
+              }
+              if(GlobalConstants.neudir!=-1&&GlobalConstants.neuwnd!=-1) {
+            	  txtmsg = txtmsg + "\n" + GlobalConstants.neustr;
+              }
+
+      		  
+      		  i.putExtra(Intent.EXTRA_SUBJECT, "foehnix brief");
+	      	  i.putExtra(Intent.EXTRA_TEXT, txtmsg);
+	          context.startActivity(i);
+      	  }
+      }
+      
       if("android.appwidget.action.APPWIDGET_DISABLED".equalsIgnoreCase(intent.getAction())){
           onDisabled(context);
       }
@@ -166,6 +212,7 @@ static int disablenite=0;
     int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
     for (int widgetId : allWidgetIds) {
       remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+      remoteViews.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_gray);
       remoteViews.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh_gray);
 	  remoteViews.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
 	  remoteViews.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
@@ -174,7 +221,7 @@ static int disablenite=0;
       String surl = new String();
       surl = new String("http://data.geo.admin.ch.s3.amazonaws.com/ch.meteoschweiz.swissmetnet/VQHA69.csv");
       new dspclass(context, remoteViews, widgetId, appWidgetManager, R.id.firststockview).execute(surl);
-
+      
       // Register an onClickListener
       Intent intent = new Intent(context, MyWidgetProvider.class);
       intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -182,11 +229,14 @@ static int disablenite=0;
       PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
       remoteViews.setOnClickPendingIntent(R.id.updatebutton, pendingIntent);   
       appWidgetManager.updateAppWidget(widgetId, remoteViews);
-      // Register another onClickListener
+      // Register another onClickListener for pressure diagrams via internet
       remoteViews.setOnClickPendingIntent(R.id.firststockview, getPendingSelfIntent(context, "firststockviewclicked"));
       appWidgetManager.updateAppWidget(widgetId, remoteViews);
-      // Register yet another onClickListener
+      // Register yet another onClickListener for wind speeds via internet
       remoteViews.setOnClickPendingIntent(R.id.secondstockview, getPendingSelfIntent(context, "secondstockviewclicked"));
+      appWidgetManager.updateAppWidget(widgetId, remoteViews);
+      // Register still another onClickListener for sharing via text message
+      remoteViews.setOnClickPendingIntent(R.id.sharebutton, getPendingSelfIntent(context, "shareactionclicked"));
       appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
   }
@@ -199,12 +249,14 @@ static int disablenite=0;
       private String cpy = new String();
       
       private Context cntxt;
-      private RemoteViews views;
-      private int WidgetID;
+      private RemoteViews views; int WidgetID;
       private AppWidgetManager WidgetManager;
       private int TextViewID;
       
       private double deltapress;
+      private boolean useadelboden = false;
+      private boolean usechur = false;
+      private boolean uselugano = false;
 
       public dspclass (Context cntxt, RemoteViews views, int appWidgetID, AppWidgetManager appWidgetManager, int textViewID) {
   	     this.cntxt = cntxt;
@@ -256,7 +308,9 @@ static int disablenite=0;
           double locdir=-1;
           double locpress=-1;
           double locwnd=-1;
+          double lugdir=-1;
           double lugpress=-1;
+          double lugwnd=-1;
           double neudir=-1;
           double neuwnd=-1;
           double smapress=-1;
@@ -290,6 +344,16 @@ static int disablenite=0;
     			   if(separated[l-1].trim().length()>0&&!separated[l-1].trim().equals("-")) {
 	    			   lugpress = Double.parseDouble(separated[l-1]);
 	    			   Log.w("LUGANO", "pressure " + lugpress);
+	    		   }
+    			   if(keeponseparated(separated)) {
+	    			   lugdir = Double.parseDouble(separated[5]);
+	    			   lugwnd = Double.parseDouble(separated[8]);
+	    			   lugstr = "Lugano " + deg2abc(lugdir).trim() + lugwnd;
+	    			   GlobalConstants.locdir = lugdir;
+	    			   GlobalConstants.locstr = lugstr;
+	    			   GlobalConstants.locwnd = lugwnd;
+	    			   Log.w("Lugano", "wind " + lugwnd);
+	    			   Log.w("Lugano", "wind dir " + lugdir);
     			   }
     		   } else if(StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("KLO")) {
     			   klostr = StringBuffer;
@@ -311,19 +375,25 @@ static int disablenite=0;
     			   altstr = StringBuffer;
     			   String[] separated = altstr.split("\\|");
     			   if(keeponseparated(separated)) {
-    			   altdir = Double.parseDouble(separated[5]);
-    			   altwnd = Double.parseDouble(separated[8]);
-    			   altstr = "Altdorf " + deg2abc(altdir).trim() + altwnd;
-    			   Log.w("ALTDORF", "wind " + altwnd);
-    			   Log.w("ALTDORF", "wind dir " + altdir);
+	    			   altdir = Double.parseDouble(separated[5]);
+	    			   altwnd = Double.parseDouble(separated[8]);
+	    			   altstr = "Altdorf " + deg2abc(altdir).trim() + altwnd;
+	    			   GlobalConstants.altdir = altdir;
+	    			   GlobalConstants.altstr = altstr;
+	    			   GlobalConstants.altwnd = altwnd;
+	    			   Log.w("ALTDORF", "wind " + altwnd);
+	    			   Log.w("ALTDORF", "wind dir " + altdir);
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("CIM")) {
     			   cimstr = StringBuffer;
     			   String[] separated = cimstr.split("\\|");
     			   if(keeponseparated(separated)) {
-    			   cimdir = Double.parseDouble(separated[5]);
-    			   cimwnd = Double.parseDouble(separated[8]);
-    			   cimstr = "Cimetta " + deg2abc(cimdir).trim() + cimwnd;
+	    			   cimdir = Double.parseDouble(separated[5]);
+	    			   cimwnd = Double.parseDouble(separated[8]);
+	    			   cimstr = "Cimetta " + deg2abc(cimdir).trim() + cimwnd;
+	    			   GlobalConstants.cimdir = cimdir;
+	    			   GlobalConstants.cimstr = cimstr;
+	    			   GlobalConstants.cimwnd = cimwnd;
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("OTL")) {
     			   locstr = StringBuffer;
@@ -333,35 +403,47 @@ static int disablenite=0;
 	    			   locpress = Double.parseDouble(separated[l-1]);
 	    		   }
     			   if(keeponseparated(separated)) {
-    			   locdir = Double.parseDouble(separated[5]);
-    			   locwnd = Double.parseDouble(separated[8]);
-    			   locstr = "Locarno " + deg2abc(locdir).trim() + locwnd;
-    			   Log.w("Locarno", "wind " + locwnd);
-    			   Log.w("Locarno", "wind dir " + locdir);
+	    			   locdir = Double.parseDouble(separated[5]);
+	    			   locwnd = Double.parseDouble(separated[8]);
+	    			   locstr = "Locarno " + deg2abc(locdir).trim() + locwnd;
+	    			   GlobalConstants.locdir = locdir;
+	    			   GlobalConstants.locstr = locstr;
+	    			   GlobalConstants.locwnd = locwnd;
+	    			   Log.w("Locarno", "wind " + locwnd);
+	    			   Log.w("Locarno", "wind dir " + locdir);
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("ABO")) {
     			   abostr = StringBuffer;
     			   String[] separated = abostr.split("\\|");
     			   if(keeponseparated(separated)) {
-    			   abodir = Double.parseDouble(separated[5]);
-    			   abownd = Double.parseDouble(separated[8]);
-    			   abostr = "Adelboden " + deg2abc(abodir).trim() + abownd;
+	    			   abodir = Double.parseDouble(separated[5]);
+	    			   abownd = Double.parseDouble(separated[8]);
+	    			   abostr = "Adelboden " + deg2abc(abodir).trim() + abownd;
+	    			   GlobalConstants.abodir = abodir;
+	    			   GlobalConstants.abostr = abostr;
+	    			   GlobalConstants.abownd = abownd;
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("CHU")) {
     			   chustr = StringBuffer;
     			   String[] separated = chustr.split("\\|");
     			   if(keeponseparated(separated)) {
-    			   chudir = Double.parseDouble(separated[5]);
-    			   chuwnd = Double.parseDouble(separated[8]);
-    			   chustr = "Chur " + deg2abc(chudir).trim() + chuwnd;
+	    			   chudir = Double.parseDouble(separated[5]);
+	    			   chuwnd = Double.parseDouble(separated[8]);
+	    			   chustr = "Chur " + deg2abc(chudir).trim() + chuwnd;
+	    			   GlobalConstants.chudir = chudir;
+	    			   GlobalConstants.chustr = chustr;
+	    			   GlobalConstants.chuwnd = chuwnd;
     			   }
     		   } else if (StringBuffer.length() > 3 && StringBuffer.substring(0,3).equals("NEU")) {
     			   neustr = StringBuffer;
     			   String[] separated = neustr.split("\\|");
     			   if(keeponseparated(separated)) {
-    			   neudir = Double.parseDouble(separated[5]);
-    			   neuwnd = Double.parseDouble(separated[8]);
-    			   neustr = "Neuchâtel " + deg2abc(neudir).trim() + neuwnd;
+	    			   neudir = Double.parseDouble(separated[5]);
+	    			   neuwnd = Double.parseDouble(separated[8]);
+	    			   neustr = "Neuchâtel " + deg2abc(neudir).trim() + neuwnd;
+	    			   GlobalConstants.neudir = neudir;
+	    			   GlobalConstants.neustr = neustr;
+	    			   GlobalConstants.neuwnd = neuwnd;
     			   }
     		   }
            }
@@ -383,6 +465,35 @@ static int disablenite=0;
         	   firsttextResult = "" + rnd1dig(deltapress);
            }
            
+           // rules lugano
+           if(locwnd==-1) {
+        	   uselugano=true;
+           } else if(lugwnd > locwnd && (lugdir < 90 || lugdir > 270)) {
+        	   uselugano=true;
+           } else if((locdir > 90 && locdir < 270) && (lugdir < 90 || lugdir > 270)) {
+        	   uselugano=true;
+           }
+           // rules chur
+           if(altwnd==-1) {
+        	   usechur=true;
+           } else if(chuwnd > altwnd && (chudir > 90 && chudir < 270)) {
+        	   usechur=true;
+           } else if((altdir < 90 || altdir > 270) && (chudir > 90 && chudir < 270)) {
+        	   usechur=true;
+           }
+           // rules adelboden
+           if(altwnd==-1 && chuwnd==-1) {
+        	   useadelboden=true;	
+        	   usechur=false;
+           } else if(abownd > altwnd && abownd > chuwnd && (abodir > 90 && abodir < 270)) {
+        	   useadelboden=true;	
+        	   usechur=false;
+           } else if((altdir < 90 || altdir > 270) && (chudir < 90 || chudir > 270) && (abodir > 90 && abodir < 270)) {
+        	   useadelboden=true;	
+        	   usechur=false;
+           }
+           
+           
            if (deltapress <= 3 && deltapress >=-3 && neuwnd>=40) {
         	   secondtextResult=deg2abc(neudir);
         	   secondtextResult = secondtextResult + rnd1dig(neuwnd);
@@ -390,12 +501,21 @@ static int disablenite=0;
            } else if (ninetyminutestoolate(GlobalConstants.lastneuoverride) && deltapress <= 3 && deltapress >=-3) {
         	   secondtextResult=deg2abc(neudir);
         	   secondtextResult = secondtextResult + rnd1dig(neuwnd);
-           } else if (deltapress >= 0 && altwnd!=-1) {
+           } else if (deltapress >= 0 && altwnd!=-1 && useadelboden==false && usechur==false) {
         	   secondtextResult=deg2abc(altdir);
         	   secondtextResult = secondtextResult + rnd1dig(altwnd);
-           }  else if(locwnd!=-1) {
+           } else if (deltapress >= 0 && chuwnd!=-1 && useadelboden==false) {
+        	   secondtextResult=deg2abc(chudir);
+        	   secondtextResult = secondtextResult + rnd1dig(chuwnd);
+           } else if (deltapress >= 0 && chuwnd!=-1) {
+        	   secondtextResult=deg2abc(abodir);
+        	   secondtextResult = secondtextResult + rnd1dig(abownd);
+           }  else if(locwnd!=-1 && uselugano==false) {
         	   secondtextResult=deg2abc(locdir);
         	   secondtextResult = secondtextResult + rnd1dig(locwnd);
+           } else if(lugwnd!=-1) {
+        	   secondtextResult=deg2abc(lugdir);
+        	   secondtextResult = secondtextResult + rnd1dig(lugwnd);        	   
            }
            thirdtextResult = "";
            if(abodir!=-1&&abownd!=-1) {
@@ -412,6 +532,9 @@ static int disablenite=0;
            }
            if(locdir!=-1&&locwnd!=-1) {
         	   thirdtextResult = thirdtextResult + locstr + " ";
+           }
+           if(lugdir!=-1&&lugwnd!=-1) {
+        	   thirdtextResult = thirdtextResult + lugstr + " ";
            }
            if(neudir!=-1&&neuwnd!=-1) {
         	   thirdtextResult = thirdtextResult + neustr;
@@ -440,20 +563,29 @@ static int disablenite=0;
     	   views.setTextViewText(R.id.firststockview, Html.fromHtml(cpy));
     	   
     	   // store deltapress value in GlobalConstants
+    	   GlobalConstants.currentdeltapress=deltapress;
            fortyfiveminutestoolate(deltapress);
     	   
            if (ninetyminutestoolate(GlobalConstants.lastneuoverride) && deltapress <= 3 && deltapress >=-3) {
         	   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
-           } else if(deltapress >= 0) {
+           } else if(deltapress >= 0 && useadelboden==false && usechur==false) {
     		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Altdorf wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
-    	   } else {
+           } else if(deltapress >= 0 && useadelboden==false) {
+    		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Chur wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";	   
+    	   } else if(deltapress >= 0) {
+    		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Adelboden wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";	   
+    	   } else if(uselugano==false) {
     		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Locarno wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
+    	   } else {
+    		   cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Lugano wind max "  + "</a><b> " + secondtextResult + " km/h</b></html>";
     	   }
+    	   
     	   views.setTextViewText(R.id.secondstockview, Html.fromHtml(cpy));
     	   views.setTextViewText(R.id.thirdstockview, thirdtextResult);
        } 
        
        if(!firsttextResult.equals("-")) {
+    	   views.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_white);
     	   views.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh);
     	   views.setInt(R.id.firststockview, "setTextColor", Color.WHITE);
     	   views.setInt(R.id.secondstockview, "setTextColor", Color.WHITE);
@@ -482,6 +614,7 @@ static int disablenite=0;
     	   views.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
     	   views.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
     	   views.setInt(R.id.source, "setTextColor", Color.GRAY);
+    	   views.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_white);
     	   views.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh);
     	   
     	   // load from prefs
@@ -522,7 +655,6 @@ static int disablenite=0;
     	  return(str);
       }
       
-      
       public double rnd1dig(double kritz) {
     	  kritz = Math.round(10*kritz);
     	  return(kritz/10);
@@ -550,6 +682,7 @@ static int disablenite=0;
 		  long diff;
 		  long diffMinutes;
 		  datenow = new Date();
+		  
 		  // initialize values
 		  if(GlobalConstants.lastdpoverride==null) {
 			  GlobalConstants.lastlastdeltapress=tdeltapress;
