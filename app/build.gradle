@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion '25.0.0'
+    project.archivesBaseName = "foehnix";
+
+    defaultConfig {
+        applicationId "foehnix.widget"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 22
+        versionName "2.2"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+	    applicationVariants.all { variant ->
+		variant.outputs.each{ output -> output.outputFile = new File(output.outputFile.parent,output.outputFile.name.replace("-release",defaultConfig.getVersionName() + "-release"))
+		}
+	    }
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.android.support:appcompat-v7:20.0.0'
+}
