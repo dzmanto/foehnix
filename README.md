@@ -8,8 +8,7 @@ Foehnix features
 - Data sourced from MeteoSwiss.
 - Permission is granted to distribute and / or sell Foehnix in app stores such as google apps.
 
-![][foehniximage]
-[foehniximage]: http://ecx.images-amazon.com/images/I/91dttZ4w07L._SY300_.png
+![foehniximage](http://ecx.images-amazon.com/images/I/91dttZ4w07L._SY300_.png)
 
 The Foehnix weather widget for Android aims at helping pilots with weather conditions. Turbulence during flying due to Foehn conditions is known to be a serious issue for paraglider and for hangglider pilots flying in the Alps. Foehnix comes as a widget and displays pressure differences across the Alps between Lugano and Kloten. Pressure differences are updated every 15 minutes or upon request. An excessive negative pressure difference is likely to result in Foehn conditions on the South side of the Alps. Likewise, an excessive positive pressure difference is likely to result in Foehn conditions on the North side of the Alps. 
 
