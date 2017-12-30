@@ -110,17 +110,30 @@ static int disablenite=0;
 	  		AlarmManager alarmMgr=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	  		alarmMgr.cancel(anIntent);
 	  		alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_FIFTEEN_MINUTES, anIntent);
-	  		super.onEnabled(context);	
+	  		super.onEnabled(context);
       }
-      
-      if("ContactWidgetUpdate".equalsIgnoreCase(intent.getAction())||"android.appwidget.action.APPWIDGET_UPDATE".equalsIgnoreCase(intent.getAction())){
-    	  Log.w(this.getClass().getName(), "commenced ContactWidgetUpdate");
-          ComponentName componentName=new ComponentName(context,getClass().getName());
-          AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);
-          int[] appWidgetIds=appWidgetManager.getAppWidgetIds(componentName);
-          onUpdate(context,appWidgetManager,appWidgetIds);
+
+      // act on update button pressed
+      if("android.appwidget.action.APPWIDGET_UPDATE".equalsIgnoreCase(intent.getAction())){
+    	  Log.w(this.getClass().getName(), "commenced APPWIDGET_UPDATE");
+		  Log.w(this.getClass().getName(), intent.getAction());
+		  ComponentName componentName=new ComponentName(context,getClass().getName());
+		  AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);
+		  int[] appWidgetIds=appWidgetManager.getAppWidgetIds(componentName);
+		  onUpdate(context,appWidgetManager,appWidgetIds);
       }
-      
+
+      // act on alarm manager
+	  if("ContactWidgetUpdate".equalsIgnoreCase(intent.getAction())){
+		  Log.w(this.getClass().getName(), "commenced ContactWidgetUpdate");
+		  Log.w(this.getClass().getName(), intent.getAction());
+		  if(isnite()==false||formattedDate==null) {
+			  ComponentName componentName=new ComponentName(context,getClass().getName());
+			  AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);
+			  int[] appWidgetIds=appWidgetManager.getAppWidgetIds(componentName);
+			  onUpdate(context,appWidgetManager,appWidgetIds);
+		  }
+	  }
       
       if("firststockviewclicked".equalsIgnoreCase(intent.getAction())){
           Log.w("firststockview","clicked");
@@ -202,9 +215,6 @@ static int disablenite=0;
   public void onUpdate(Context context, AppWidgetManager appWidgetManager,
       int[] appWidgetIds) {
 	Log.w("onUpdate","commenced");
-	if(isnite()==true&&formattedDate!=null) {
-		return;
-	}
 	RemoteViews remoteViews;  
     // Get all ids
     ComponentName thisWidget = new ComponentName(context,
@@ -750,7 +760,7 @@ static int disablenite=0;
 	  int mm;
 	  Calendar c = Calendar.getInstance();
 	  SimpleDateFormat df = new SimpleDateFormat("mm");
-	  if(disablenite<13) {
+	  if(disablenite<5) {
 		  disablenite++;
 		  return(false);
 	  }
