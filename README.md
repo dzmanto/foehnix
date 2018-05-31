@@ -17,3 +17,12 @@ The widget also displays maximum wind speeds in some valleys that are most likel
 As from version 2.2, Foehnix also provides functionality to share weather conditions via text message, email etc.
 
 Foehnix does not and is not meant to replace your judgement as a pilot! The author acknowledges MeteoSwiss for providing raw weather data. Always happy landing!
+
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/packages/foehnix.widget/)
+      
+[<img src="https://images-na.ssl-images-amazon.com/images/G/01/pn-mlp/images/appstores/amazon_3x.png"
+      alt="Get it on Amazon"
+      height="80">](https://www.amazon.com/Foehnix-Paragliding-App-for-Android/dp/B00ZPPLKJA)
+      
