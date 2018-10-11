@@ -23,7 +23,7 @@ public class Util {
      
     private static PendingIntent getAlarmIntent(Context context) {
         Intent intent = new Intent(context, MyWidgetProvider.class);
-        intent.setAction(MyWidgetProvider.ACTION_MUELL);
+        intent.setAction(MyWidgetProvider.ACTION_TRSH);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
         return pi;
     }

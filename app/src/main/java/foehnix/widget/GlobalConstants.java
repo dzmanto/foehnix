@@ -2,8 +2,7 @@ package foehnix.widget;
 
 import java.util.Date;
 
-public class GlobalConstants
-{
+public class GlobalConstants {
 	public static double currentdeltapress=-100;
 	public static double lastdeltapress=-100;
 	public static double lastlastdeltapress=-100;

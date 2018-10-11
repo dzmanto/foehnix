@@ -41,7 +41,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class MyWidgetProvider extends AppWidgetProvider {
-public static final String ACTION_MUELL = "Muell";
+public static final String ACTION_TRSH = "TRSH";
 static String formattedDate;
 static int disablenite=0;
 
@@ -57,7 +57,7 @@ static int disablenite=0;
 	  PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 	  AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	  alarmManager.cancel(sender);
-	  intent = new Intent("Muell");
+	  intent = new Intent("TRSH");
 	  sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 	  alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	  alarmManager.cancel(sender);
@@ -92,8 +92,8 @@ static int disablenite=0;
   public void onReceive(Context context, Intent intent) {
       Log.w(this.getClass().getName(), "onReceive: intent="+intent);
       
-      if("Muell".equalsIgnoreCase(intent.getAction())){
-    	  Log.w("Muell","trash");
+      if("TRSH".equalsIgnoreCase(intent.getAction())){
+    	  Log.w("TRSH","trash");
     	  if(formattedDate==null) {
     	      ComponentName componentName=new ComponentName(context,getClass().getName());
               AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);

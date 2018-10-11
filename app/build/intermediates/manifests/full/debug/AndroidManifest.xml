@@ -20,7 +20,7 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="ContactWidgetUpdate" />
-                <action android:name="Muell" />
+                <action android:name="TRSH" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
