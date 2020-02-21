@@ -25,4 +25,3 @@ Foehnix does not and is not meant to replace your judgement as a pilot! The auth
 [<img src="https://images-na.ssl-images-amazon.com/images/G/01/pn-mlp/images/appstores/amazon_3x.png"
       alt="Get it on Amazon"
       height="80">](https://www.amazon.com/Foehnix-Paragliding-App-for-Android/dp/B00ZPPLKJA)
-      

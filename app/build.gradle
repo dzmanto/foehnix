@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 29
     buildToolsVersion '25.0.0'
     project.archivesBaseName = "foehnix";
 
     defaultConfig {
         applicationId "foehnix.widget"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 24
-        versionName "2.4"
+        targetSdkVersion 29
+        versionCode 26
+        versionName "2.6"
     }
 
     buildTypes {
@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.android.support:support-v13:26.0.0-alpha1'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
 }

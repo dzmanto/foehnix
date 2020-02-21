@@ -11,6 +11,6 @@
     <string msgid="8264924765203268293" name="abc_searchview_description_search">"Αναζήτηση"</string>
     <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Υποβολή ερωτήματος"</string>
     <string msgid="893419373245838918" name="abc_searchview_description_voice">"Φωνητική αναζήτηση"</string>
-    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Κοινοποίηση με"</string>
-    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Κοινοποίηση με %s"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Κοινή χρήση με"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Κοινή χρήση με %s"</string>
 </resources>

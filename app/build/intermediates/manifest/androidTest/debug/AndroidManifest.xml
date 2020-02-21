@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foehnix.widget.test">
 
-    <uses-sdk android:minSdkVersion="22" android:targetSdkVersion="22" />
+    <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="29" />
 
     <application>
         <uses-library android:name="android.test.runner" />

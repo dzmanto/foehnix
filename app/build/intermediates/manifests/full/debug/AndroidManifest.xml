@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foehnix.widget"
-    android:versionCode="23"
-    android:versionName="2.3" >
+    android:versionCode="26"
+    android:versionName="2.6" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="29" />
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <meta-data
+        android:name="android.support.VERSION"
+        android:value="26.0.0-alpha1" />
 
     <application
         android:allowBackup="true"
@@ -44,13 +48,6 @@
             android:name="foehnix.widget.MyMainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat" >
-
-            <!--
-             	<intent-filter>
-            	<action android:name="android.intent.action.MAIN" />
-            	<category android:name="android.intent.category.LAUNCHER" />
-        	</intent-filter>
-            -->
         </activity>
     </application>
 

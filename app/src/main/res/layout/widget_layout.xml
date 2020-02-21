@@ -31,27 +31,44 @@
  		android:clickable="true"
  		android:textAllCaps="false"
         android:text="@string/stock_dsp" />
-       
-     <TextView
-        android:id="@+id/thirdstockview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/secondstockview"
-        android:layout_below="@+id/secondstockview"
-        android:layout_marginTop="9dp"
-        android:layout_marginRight="60dip"
-        android:textSize="20sp"
-        android:text="@string/stock_dsp"
-        android:singleLine="true" 
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
-        android:scrollHorizontally="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:duplicateParentState="true">
-    <requestFocus android:focusable="true" android:focusableInTouchMode="true"
-        android:duplicateParentState="true" /> 
-        </TextView>
+
+    <!--
+        <foehnix.widget.ScrollTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thirdstockview"
+            android:layout_alignLeft="@+id/secondstockview"
+            android:layout_below="@+id/secondstockview"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="60dip"
+            android:textSize="20sp"
+            android:text="@string/stock_dsp"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+        </foehnix.widget.ScrollTextView>
+    -->
+
+         <TextView
+            android:id="@+id/thirdstockview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/secondstockview"
+            android:layout_below="@+id/secondstockview"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="60dip"
+            android:textSize="20sp"
+            android:text="@string/stock_dsp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:duplicateParentState="true">
+        <requestFocus android:focusable="true" android:focusableInTouchMode="true"
+            android:duplicateParentState="true" />
+            </TextView>
 
     <Button
         android:id="@+id/updatebutton"
@@ -83,10 +100,9 @@
             android:layout_alignBottom="@+id/updatetime"
             android:textSize="10sp"
             android:clickable="true"
-            android:text="@string/stock_dsp" 
+            android:text="@string/stock_dsp"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true" />
-
 <!--
         <TextView
             android:id="@+id/share"
@@ -121,5 +137,5 @@
             android:layout_alignParentTop="true"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/empty_string" />
-     
+
 </RelativeLayout> 
