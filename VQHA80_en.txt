@@ -1,0 +1,205 @@
+stn;yyyyMMddHHmm;tre200s0;rre150z0;sre000z0;gre000z0;ure200s0;tde200s0;dkl010z0;fu3010z0;fu3010z1;prestas0;pp0qffs0;pp0qnhs0;ppz850s0;ppz700s0;dv1towz0;fu3towz0;fu3towz1;ta1tows0;uretows0;tdetows0
+
+stn                                       NAT ABBR (see below)
+y                                         Year
+M                                         Month
+d                                         Day
+H                                         Hour
+m                                         Minute
+
+Time in UTC: 00:40 UTC = 02:40 Light Saving Time
+                       = 01:40 Normal
+
+Missing values                            -
+
+Stations Coordinates:
+---------
+stn                                       Name                         Longitude/Latitude                        KM-Coordinates                            Altitude
+
+TAE                                       Aadorf / Tänikon             8°54'/47°29'                              710517/259824                             539
+COM                                       Acquarossa / Comprovasco     8°56'/46°28'                              714984/146451                             575
+ABO                                       Adelboden                    7°34'/46°30'                              609350/149001                             1322
+AIG                                       Aigle                        6°55'/46°20'                              560404/130713                             381
+ALT                                       Altdorf                      8°37'/46°53'                              690180/193564                             438
+ARH                                       Altenrhein                   9°34'/47°29'                              760382/261386                             398
+AND                                       Andeer                       9°26'/46°37'                              752691/164038                             987
+ANT                                       Andermatt                    8°35'/46°38'                              687444/165044                             1438
+ARO                                       Arosa                        9°41'/46°48'                              771030/184825                             1878
+RAG                                       Bad Ragaz                    9°30'/47°01'                              756910/209350                             496
+BAN                                       Bantiger                     7°32'/46°59'                              606850/202975                             941
+BAS                                       Basel / Binningen            7°35'/47°32'                              610908/265611                             316
+LAT                                       Bergün / Latsch              9°45'/46°38'                              777273/166618                             1407
+BER                                       Bern / Zollikofen            7°28'/46°59'                              601933/204409                             552
+BEZ                                       Beznau                       8°14'/47°33'                              659812/267696                             325
+BIA                                       Biasca                       8°59'/46°20'                              718550/132800                             278
+BIN                                       Binn                         8°12'/46°22'                              657996/135422                             1479
+BIZ                                       Bischofszell                 9°14'/47°30'                              735325/262285                             470
+BIV                                       Bivio                        9°40'/46°28'                              771281/148119                             1856
+BIE                                       Bière                        6°21'/46°31'                              515887/153210                             683
+BLA                                       Blatten, Lötschental         7°49'/46°25'                              629564/141084                             1538
+BOL                                       Boltigen                     7°23'/46°37'                              595831/163587                             820
+BOU                                       Bouveret                     6°51'/46°24'                              555264/138175                             374
+BRZ                                       Brienz                       8°04'/46°44'                              647552/176803                             567
+BUS                                       Buchs / Aarau                8°05'/47°23'                              648395/248369                             386
+BUF                                       Buffalora                    10°16'/46°39'                             816494/170225                             1968
+FRE                                       Bullet / La Frétaz           6°35'/46°50'                              534225/188081                             1205
+CEV                                       Cevio                        8°36'/46°19'                              689688/130565                             417
+CHZ                                       Cham                         8°28'/47°11'                              677758/226878                             442
+CHA                                       Chasseral                    7°03'/47°08'                              570845/220157                             1599
+CHM                                       Chaumont                     6°59'/47°03'                              565060/211006                             1136
+CHU                                       Chur                         9°32'/46°52'                              759465/193152                             556
+CHD                                       Château-d'Oex                7°08'/46°29'                              577040/147654                             1028
+CIM                                       Cimetta                      8°47'/46°12'                              704433/117457                             1661
+CDM                                       Col des Mosses               7°06'/46°23'                              573817/137852                             1412
+GSB                                       Col du Grand St-Bernard      7°10'/45°52'                              579192/79753                              2472
+COY                                       Courtelary                   7°05'/47°11'                              573622/225597                             695
+CMA                                       Crap Masegn                  9°11'/46°51'                              732820/189380                             2480
+CRM                                       Cressier                     7°04'/47°03'                              571162/210797                             430
+DAV                                       Davos                        9°51'/46°49'                              783518/187458                             1594
+DEM                                       Delémont                     7°21'/47°21'                              593269/244543                             439
+DIS                                       Disentis                     8°51'/46°42'                              708190/173793                             1197
+EBK                                       Ebnat-Kappel                 9°07'/47°16'                              726347/237176                             623
+EGH                                       Eggishorn                    8°06'/46°26'                              650279/141897                             2893
+EGO                                       Egolzwil                     8°00'/47°11'                              642912/225540                             521
+EIN                                       Einsiedeln                   8°45'/47°08'                              699982/221068                             910
+ELM                                       Elm                          9°11'/46°55'                              732265/198425                             957
+ENG                                       Engelberg                    8°25'/46°49'                              674160/186069                             1035
+EVI                                       Evionnaz                     7°02'/46°11'                              568197/114693                             482
+EVO                                       Evolène / Villa              7°31'/46°07'                              605412/106748                             1825
+FAH                                       Fahy                         6°56'/47°25'                              562464/252675                             596
+FLU                                       Flühli, LU                   8°01'/46°53'                              644332/193311                             939
+GRA                                       Fribourg / Posieux           7°07'/46°46'                              575183/180076                             650
+FRU                                       Frutigen                     7°39'/46°36'                              616773/160884                             756
+GVE                                       Genève / Cointrin            6°08'/46°15'                              498904/122631                             410
+GES                                       Gersau                       8°31'/46°60'                              682509/205571                             521
+GIH                                       Giswil                       8°11'/46°51'                              657322/188976                             471
+GLA                                       Glarus                       9°04'/47°02'                              723755/210567                             516
+GOR                                       Gornergrat                   7°47'/45°59'                              626900/92512                              3129
+GRE                                       Grenchen                     7°25'/47°11'                              598218/225349                             427
+GRH                                       Grimsel Hospiz               8°20'/46°34'                              668583/158215                             1980
+GRO                                       Grono                        9°10'/46°15'                              733016/124090                             323
+GRC                                       Grächen                      7°50'/46°12'                              630738/116062                             1605
+GOS                                       Göschenen                    8°36'/46°42'                              688477/171926                             950
+GOE                                       Gösgen                       7°58'/47°22'                              640421/245949                             380
+GUE                                       Gütsch, Andermatt            8°37'/46°39'                              690050/167475                             2283
+GUT                                       Güttingen                    9°17'/47°36'                              738421/273962                             440
+HLL                                       Hallau                       8°28'/47°42'                              677456/283472                             419
+HOE                                       Hörnli                       8°56'/47°22'                              713516/247756                             1144
+ILZ                                       Ilanz                        9°13'/46°47'                              735685/181965                             698
+INT                                       Interlaken                   7°52'/46°40'                              633023/169092                             577
+JUN                                       Jungfraujoch                 7°59'/46°33'                              641930/155275                             3580
+KOP                                       Koppigen                     7°36'/47°07'                              612662/218664                             485
+BRL                                       La Brévine                   6°37'/46°59'                              536981/203974                             1050
+CDF                                       La Chaux-de-Fonds            6°48'/47°05'                              550919/214861                             1017
+DOL                                       La Dôle                      6°06'/46°25'                              497060/142371                             1669
+LAC                                       Lachen / Galgenen            8°52'/47°11'                              707637/226334                             468
+LAG                                       Langnau i.E.                 7°48'/46°56'                              628003/198793                             743
+MLS                                       Le Moléson                   7°01'/46°33'                              567718/155076                             1974
+LEI                                       Leibstadt                    8°11'/47°36'                              656373/272121                             341
+ATT                                       Les Attelas                  7°16'/46°06'                              586854/105302                             2735
+CHB                                       Les Charbonnières            6°19'/46°40'                              513821/169387                             1045
+DIA                                       Les Diablerets               7°12'/46°20'                              581914/130622                             2964
+MAR                                       Les Marécottes               7°01'/46°07'                              567375/107577                             990
+OTL                                       Locarno / Monti              8°47'/46°10'                              704172/114342                             366
+LUG                                       Lugano                       8°58'/46°00'                              717873/95884                              273
+LUZ                                       Luzern                       8°18'/47°02'                              665543/209849                             454
+LAE                                       Lägern                       8°24'/47°29'                              672250/259460                             845
+MAG                                       Magadino / Cadenazzo         8°56'/46°10'                              715479/113161                             203
+MAS                                       Marsens                      7°04'/46°39'                              571758/167316                             714
+MAH                                       Mathod                       6°34'/46°44'                              533458/176567                             437
+MTR                                       Matro                        8°55'/46°25'                              714263/140943                             2171
+MER                                       Meiringen                    8°10'/46°44'                              655844/175930                             588
+MOB                                       Montagnier, Bagnes           7°14'/46°04'                              583492/102189                             839
+MVE                                       Montana                      7°28'/46°18'                              601709/127488                             1427
+GEN                                       Monte Generoso               9°01'/45°56'                              722503/87456                              1600
+MRP                                       Monte Rosa-Plattje           7°49'/45°57'                              629149/89520                              2885
+MOA                                       Mosen                        8°14'/47°15'                              660127/232851                             453
+MTE                                       Mottec                       7°37'/46°09'                              614325/110730                             1580
+MOE                                       Möhlin                       7°53'/47°34'                              633053/269147                             343
+MUB                                       Mühleberg                    7°17'/46°58'                              587792/202479                             479
+MSK                                       Mühleberg / Stockeren        7°17'/46°57'                              588150/200125                             775
+NAS                                       Naluns / Schlivera           10°16'/46°49'                             815374/188987                             2380
+NAP                                       Napf                         7°56'/47°00'                              638136/206078                             1403
+NEU                                       Neuchâtel                    6°57'/47°00'                              563086/205559                             485
+CGI                                       Nyon / Changins              6°14'/46°24'                              506878/139572                             455
+OBR                                       Oberriet / Kriessern         9°37'/47°23'                              764170/249582                             409
+AEG                                       Oberägeri                    8°36'/47°08'                              688728/220956                             724
+ORO                                       Oron                         6°51'/46°34'                              555505/158052                             828
+BEH                                       Passo del Bernina            10°01'/46°25'                             798422/143020                             2260
+PAY                                       Payerne                      6°57'/46°49'                              562131/184611                             490
+PIL                                       Pilatus                      8°15'/46°59'                              661904/203410                             2106
+PIO                                       Piotta                       8°41'/46°31'                              695880/152264                             990
+COV                                       Piz Corvatsch                9°49'/46°25'                              783150/143521                             3302
+PMA                                       Piz Martegnas                9°32'/46°35'                              760261/160570                             2670
+PLF                                       Plaffeien                    7°16'/46°45'                              586828/177406                             1042
+ROB                                       Poschiavo / Robbia           10°04'/46°21'                             801992/136248                             1078
+PUY                                       Pully                        6°40'/46°31'                              540819/151510                             455
+QUI                                       Quinten                      9°13'/47°08'                              734848/221278                             419
+ROE                                       Robièi                       8°31'/46°27'                              682587/144091                             1896
+RUE                                       Rünenberg                    7°53'/47°26'                              633252/253845                             611
+SBE                                       S. Bernardino                9°11'/46°28'                              734115/147294                             1638
+HAI                                       Salen-Reutenen               9°01'/47°39'                              719099/279047                             718
+SAM                                       Samedan                      9°53'/46°32'                              787249/155685                             1708
+SAG                                       Sattel, SZ                   8°38'/47°05'                              690999/215145                             790
+SHA                                       Schaffhausen                 8°37'/47°41'                              688702/282803                             438
+SRS                                       Schiers                      9°40'/46°59'                              769617/205125                             626
+SCM                                       Schmerikon                   8°56'/47°13'                              713725/231533                             408
+SPF                                       Schüpfheim                   8°01'/46°57'                              643683/199710                             744
+SCU                                       Scuol                        10°17'/46°48'                             817137/186393                             1303
+SIA                                       Segl-Maria                   9°46'/46°26'                              778574/144976                             1804
+SIM                                       Simplon-Dorf                 8°03'/46°12'                              647683/116340                             1465
+SIO                                       Sion                         7°20'/46°13'                              591633/118583                             482
+PRE                                       St-Prex                      6°27'/46°29'                              523549/148525                             425
+STC                                       St. Chrischona               7°41'/47°34'                              618695/269036                             493
+STG                                       St. Gallen                   9°24'/47°26'                              747865/254588                             775
+SMM                                       Sta. Maria, Val Müstair      10°26'/46°36'                             828861/165579                             1386
+SBO                                       Stabio                       8°56'/45°51'                              716048/77973                              353
+STK                                       Steckborn                    8°59'/47°40'                              715870/280916                             397
+SAE                                       Säntis                       9°21'/47°15'                              744183/234918                             2502
+THU                                       Thun                         7°35'/46°45'                              611200/177640                             570
+TIT                                       Titlis                       8°26'/46°46'                              675400/180400                             3040
+UEB                                       Uetliberg                    8°29'/47°21'                              679454/245034                             854
+ULR                                       Ulrichen                     8°18'/46°30'                              666747/150767                             1345
+VAD                                       Vaduz                        9°31'/47°08'                              757722/221699                             457
+VAB                                       Valbella                     9°33'/46°45'                              761634/180385                             1568
+VLS                                       Vals                         9°11'/46°38'                              734016/165551                             1242
+VEV                                       Vevey / Corseaux             6°49'/46°28'                              552106/146847                             405
+VIO                                       Vicosoprano                  9°38'/46°21'                              768485/135866                             1089
+VIT                                       Villars-Tiercelin            6°43'/46°37'                              544198/163650                             859
+VIS                                       Visp                         7°51'/46°18'                              631150/128024                             639
+WFJ                                       Weissfluhjoch                9°48'/46°50'                              780614/189634                             2691
+WYN                                       Wynau                        7°47'/47°15'                              626404/233848                             422
+WAE                                       Wädenswil                    8°41'/47°13'                              693847/230744                             485
+PSI                                       Würenlingen / PSI            8°14'/47°32'                              659355/265380                             334
+ZER                                       Zermatt                      7°45'/46°02'                              624298/97574                              1638
+REH                                       Zürich / Affoltern           8°31'/47°26'                              681432/253548                             443
+SMA                                       Zürich / Fluntern            8°34'/47°23'                              685116/248065                             555
+KLO                                       Zürich / Kloten              8°32'/47°29'                              682710/259338                             426
+
+
+
+Parameters:
+-----------
+                                          Unit                                      Description
+tre200s0                                  °C                                        Air temperature 2 m above ground; current value
+rre150z0                                  mm                                        Precipitation; ten minutes total
+sre000z0                                  min                                       Sunshine duration; ten minutes total
+gre000z0                                  W/m²                                      Global radiation; ten minutes mean
+ure200s0                                  %                                         Relative air humidity 2 m above ground; current value
+tde200s0                                  °C                                        Dew point 2 m above ground; current value
+dkl010z0                                  °                                         Wind direction; ten minutes mean
+fu3010z0                                  km/h                                      Wind speed; ten minutes mean
+fu3010z1                                  km/h                                      Gust peak (one second); maximum
+prestas0                                  hPa                                       Pressure at station level (QFE); current value
+pp0qffs0                                  hPa                                       Pressure reduced to sea level (QFF); current value
+pp0qnhs0                                  hPa                                       Pressure reduced to sea level according to standard atmosphere (QNH); current value
+ppz850s0                                  gpm                                       geopotential height of the 850 hPa-surface; current value
+ppz700s0                                  gpm                                       geopotential height of the 700 hPa-surface; current value
+dv1towz0                                  °                                         Wind direction vectoriel; ten minutes interval; tool 1 
+fu3towz0                                  km/h                                      Wind speed tower; ten minutes mean
+fu3towz1                                  km/h                                      Gust peak (one second) tower; maximum
+ta1tows0                                  °C                                        Air temperature tool 1
+uretows0                                  %                                         Relative air humidity tower; current value
+tdetows0                                  °C                                        Dew point tower
+
+
