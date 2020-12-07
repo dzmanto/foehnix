@@ -9,8 +9,8 @@ android {
         applicationId "foehnix.widget"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 27
-        versionName "2.7"
+        versionCode 28
+        versionName "2.8"
     }
 
     buildTypes {
