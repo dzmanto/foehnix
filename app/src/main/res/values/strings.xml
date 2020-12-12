@@ -4,7 +4,7 @@
     <string name="app_name">Föhnix</string>
     <string name="action_settings">Settings</string>
     <string name="app_title">severe weather warnings</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="preferences_name">FOEHNIX_PREFERENCES</string>
     <string name="share">share</string>
     <string name="stock_dsp">&#8230; loading &#8230;</string>
