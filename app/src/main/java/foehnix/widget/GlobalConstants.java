@@ -11,7 +11,7 @@ public class GlobalConstants {
     static String[] wind_locations_show_marquee;
     static double[] wind_strength;
     static String[] wind_str;
-    private Context tcontext;
+    private final Context tcontext;
 
     public GlobalConstants(Context cntxt) {
         this.tcontext = cntxt;
@@ -30,8 +30,7 @@ public class GlobalConstants {
 
     static double getSharedDouble(String desc, Context cntxt) {
         SharedPreferences prefs = cntxt.getSharedPreferences(cntxt.getResources().getString(R.string.preferences_name), Context.MODE_PRIVATE);
-        double val = Double.longBitsToDouble(prefs.getLong(desc, -100));
-        return (val);
+        return (Double.longBitsToDouble(prefs.getLong(desc, -100)));
     }
 
     static String getSharedString(String desc, Context cntxt) {
@@ -125,9 +124,5 @@ public class GlobalConstants {
 
     void setLastNeuOverride(Date lno) {
         storeSharedDate("lastneuoverride", lno, this.tcontext);
-    }
-
-    void setContext(Context cntxt) {
-        this.tcontext = cntxt;
     }
 }

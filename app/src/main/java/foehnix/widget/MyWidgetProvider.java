@@ -117,7 +117,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         if ("ContactWidgetUpdate".equalsIgnoreCase(intent.getAction())) {
             Log.w(this.getClass().getName(), "commenced ContactWidgetUpdate");
             Log.w(this.getClass().getName(), intent.getAction());
-            if (isnite() == false || formattedDate == null) {
+            if (!isnite() || formattedDate == null) {
                 ComponentName componentName = new ComponentName(context, getClass().getName());
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
@@ -223,11 +223,11 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public boolean keeponseparated(String[] separated, int first_idx, int second_idx) {
         try {
             String str2proc = separated[first_idx].trim();
-            if (str2proc.length() == 0 || str2proc.equals("-")) {
+            if (str2proc.isEmpty() || str2proc.equals("-")) {
                 return (false);
             }
             str2proc = separated[second_idx].trim();
-            if (str2proc.length() == 0 || str2proc.equals("-")) {
+            if (str2proc.isEmpty() || str2proc.equals("-")) {
                 return (false);
             }
         } catch (Exception e) {
@@ -238,24 +238,20 @@ public class MyWidgetProvider extends AppWidgetProvider {
     }
 
     public boolean isnite() {
-        String hhdate;
-        String mmdate;
-        int hh;
-        int mm;
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("mm");
         if (disablenite < 5) {
             disablenite++;
             return (false);
         }
-        mmdate = df.format(c.getTime());
-        mm = Integer.valueOf(mmdate);
+        String mmdate = df.format(c.getTime());
+        int mm = Integer.parseInt(mmdate);
         if (mm > -1 && mm < 17) {
             return (false);
         }
         df = new SimpleDateFormat("HH");
-        hhdate = df.format(c.getTime());
-        hh = Integer.valueOf(hhdate);
+        String hhdate = df.format(c.getTime());
+        int hh = Integer.parseInt(hhdate);
         return hh > 21 || hh < 7;
     }
 
@@ -354,7 +350,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                 urlConnection.setReadTimeout(5000);
                 urlConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");
                 urlConnection.connect();
-                InputStream resultingInputStream = null;
+                InputStream resultingInputStream;
                 String encoding = urlConnection.getContentEncoding();
                 if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
                     resultingInputStream = new GZIPInputStream(urlConnection.getInputStream());
@@ -371,7 +367,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
                             String[] separated = StringBuffer.split(";");
                             if (separated.length < WINDDIR_IDX)
                                 separated = StringBuffer.split(","); // just in case they switch from ; to ,
-                            int l = separated.length;
                             String str2proc = separated[PRESS_IDX].trim();
                             if (str2proc.length() > 0 && !str2proc.equals("-"))
                                 pressures[i] = Double.parseDouble(str2proc);
@@ -521,7 +516,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                 GlobalConstants.storeSharedString("source", "source: MeteoSwiss", cntxt);
                 GlobalConstants.storeSharedString("thirdstockview", thirdtextResult, cntxt);
                 GlobalConstants.storeSharedString("updatetime", formattedDate, cntxt);
-            } else if (firsttextResult.equals("-")) {
+            } else {
                 views.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
                 views.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
                 views.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
@@ -573,23 +568,17 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }
 
         public boolean ninetyminutestoolate(Date tlastneuoverride) {
-            Date datenow;
-            long diff;
-            long diffMinutes;
             if (tlastneuoverride == null) {
                 return (false);
             }
-            datenow = new Date();
-            diff = datenow.getTime() - tlastneuoverride.getTime();
-            diffMinutes = diff / (60 * 1000);
+            Date datenow = new Date();
+            long diff = datenow.getTime() - tlastneuoverride.getTime();
+            long diffMinutes = diff / (60 * 1000);
             return diffMinutes <= 90;
         }
 
         public void fortyfiveminutestoolate(double tdeltapress) {
-            Date datenow;
-            long diff;
-            long diffMinutes;
-            datenow = new Date();
+            Date datenow = new Date();
 
             // initialize values
             if (tconstants.getLastDPOverride() == null) {
@@ -597,8 +586,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
                 tconstants.setLastDeltaPress(tdeltapress);
                 tconstants.setLastDPOverride(datenow);
             }
-            diff = datenow.getTime() - tconstants.getLastDPOverride().getTime();
-            diffMinutes = diff / (60 * 1000);
+            long diff = datenow.getTime() - tconstants.getLastDPOverride().getTime();
+            long diffMinutes = diff / (60 * 1000);
             // shift register
             if (diffMinutes >= 45) {
                 tconstants.setLastButOneDeltaPress(tconstants.getLastDeltaPress());
@@ -608,31 +597,27 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }
 
         public String updownfunkypress(double tdeltapress) {
-            Date datenow;
-            long diff;
-            long diffMinutes;
-            double relpress;
             // return zero String while nothing is initialized
             if (tconstants.getLastDPOverride() == null || tconstants.getLastDeltaPress() == -100) {
                 return ("");
             }
-            datenow = new Date();
-            diff = datenow.getTime() - tconstants.getLastDPOverride().getTime();
-            diffMinutes = diff / (60 * 1000);
+            Date datenow = new Date();
+            long diff = datenow.getTime() - tconstants.getLastDPOverride().getTime();
+            long diffMinutes = diff / (60 * 1000);
 
             // make sure relpress is older than 15 minutes
-            relpress = tconstants.getLastDeltaPress();
+            double relpress = tconstants.getLastDeltaPress();
             if (diffMinutes <= 45) {
                 relpress = tconstants.getLastButOneDeltaPress();
             }
 
             if (Math.abs(tdeltapress - relpress) < 0.2) {
                 return ("→");
-            } else if ((tdeltapress - relpress) > 0) {
-                return ("↑");
-            } else {
-                return ("↓");
             }
+            if ((tdeltapress - relpress) > 0) {
+                return ("↑");
+            }
+            return ("↓");
         }
     }
 }
