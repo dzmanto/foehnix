@@ -26,7 +26,11 @@ public class Util {
     }
 
     public static void clearUpdate(Context context) {
+        cancelAlarm(context, getAlarmIntent(context));
+    }
+
+    public static void cancelAlarm(Context context, PendingIntent pi) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        am.cancel(getAlarmIntent(context));
+        am.cancel(pi);
     }
 }

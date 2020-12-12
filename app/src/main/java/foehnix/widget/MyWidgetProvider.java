@@ -26,17 +26,22 @@ public class MyWidgetProvider extends AppWidgetProvider {
         return kritz / 10;
     }
 
+    private void updateWidgetIds(Context context) {
+        ComponentName componentName = new ComponentName(context, getClass().getName());
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+        onUpdate(context, appWidgetManager, appWidgetIds);
+    }
+
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         Log.w(this.getClass().getName(), "commenced onDeleted");
         Intent intent = new Intent("ContactWidgetUpdate");
         PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+        Util.cancelAlarm(context, sender);
         intent = new Intent("TRSH");
         sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+        Util.cancelAlarm(context, sender);
         // ensure the widget will restart even after a delete event at night
         disablenite = 0;
 
@@ -48,8 +53,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         Log.w(this.getClass().getName(), "commenced onDisabled");
         Intent intent = new Intent("ContactWidgetUpdate");
         PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+        Util.cancelAlarm(context, sender);
         // ensure the widget will restart even after a disable event at night
         disablenite = 0;
 
@@ -72,10 +76,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         if ("TRSH".equalsIgnoreCase(intent.getAction())) {
             Log.w("TRSH", "trash");
             if (formattedDate == null) {
-                ComponentName componentName = new ComponentName(context, getClass().getName());
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-                onUpdate(context, appWidgetManager, appWidgetIds);
+                updateWidgetIds(context);
             }
         }
 
@@ -91,13 +92,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }
 
         // act on update button pressed
-        if ("android.appwidget.action.APPWIDGET_UPDATE".equalsIgnoreCase(intent.getAction())) {
+        if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equalsIgnoreCase(intent.getAction())) {
             Log.w(this.getClass().getName(), "commenced APPWIDGET_UPDATE");
             Log.w(this.getClass().getName(), intent.getAction());
-            ComponentName componentName = new ComponentName(context, getClass().getName());
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-            onUpdate(context, appWidgetManager, appWidgetIds);
+            updateWidgetIds(context);
         }
 
         // act on alarm manager
@@ -105,10 +103,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             Log.w(this.getClass().getName(), "commenced ContactWidgetUpdate");
             Log.w(this.getClass().getName(), intent.getAction());
             if (!isnite() || formattedDate == null) {
-                ComponentName componentName = new ComponentName(context, getClass().getName());
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-                onUpdate(context, appWidgetManager, appWidgetIds);
+                updateWidgetIds(context);
             }
         }
 
@@ -136,7 +131,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             Log.w("share action", "clicked");
 
             // register an intent for sharing
-            Intent i = new Intent(android.content.Intent.ACTION_SEND);
+            Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -151,11 +146,11 @@ public class MyWidgetProvider extends AppWidgetProvider {
             }
         }
 
-        if ("android.appwidget.action.APPWIDGET_DISABLED".equalsIgnoreCase(intent.getAction())) {
+        if (AppWidgetManager.ACTION_APPWIDGET_DISABLED.equalsIgnoreCase(intent.getAction())) {
             onDisabled(context);
         }
 
-        if ("android.appwidget.action.APPWIDGET_DELETED".equalsIgnoreCase(intent.getAction())) {
+        if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equalsIgnoreCase(intent.getAction())) {
             ComponentName componentName = new ComponentName(context, getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
