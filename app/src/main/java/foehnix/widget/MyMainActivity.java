@@ -1,6 +1,6 @@
 package foehnix.widget;
 
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class MyMainActivity extends ActionBarActivity {
+public class MyMainActivity extends AppCompatActivity {
 }
