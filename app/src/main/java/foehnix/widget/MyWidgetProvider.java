@@ -256,11 +256,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         df = new SimpleDateFormat("HH");
         hhdate = df.format(c.getTime());
         hh = Integer.valueOf(hhdate);
-        if (hh > 21 || hh < 7) {
-            return (true);
-        } else {
-            return (false);
-        }
+        return hh > 21 || hh < 7;
     }
 
     protected PendingIntent getPendingSelfIntent(Context context, String action) {
@@ -270,14 +266,14 @@ public class MyWidgetProvider extends AppWidgetProvider {
     }
 
     private class dspclass extends AsyncTask<String, Void, Void> {
+        private final RemoteViews views;
         int WidgetID;
-        private String firsttextResult = new String();
-        private String secondtextResult = new String();
-        private String thirdtextResult = new String();
-        private String cpy = new String();
+        private String firsttextResult = "";
+        private String secondtextResult = "";
+        private String thirdtextResult = "";
+        private String cpy = "";
         private GlobalConstants tconstants;
         private Context cntxt;
-        private RemoteViews views;
         private AppWidgetManager WidgetManager;
         private int TextViewID;
 
@@ -379,16 +375,16 @@ public class MyWidgetProvider extends AppWidgetProvider {
                             String str2proc = separated[PRESS_IDX].trim();
                             if (str2proc.length() > 0 && !str2proc.equals("-"))
                                 pressures[i] = Double.parseDouble(str2proc);
-                            if (StringBuffer.substring(0, 3).equals("KLO")) klopress = pressures[i];
-                            if (StringBuffer.substring(0, 3).equals("LUG")) lugpress = pressures[i];
-                            if (StringBuffer.substring(0, 3).equals("OTL")) locpress = pressures[i];
-                            if (StringBuffer.substring(0, 3).equals("SMA")) smapress = pressures[i];
+                            if (StringBuffer.startsWith("KLO")) klopress = pressures[i];
+                            if (StringBuffer.startsWith("LUG")) lugpress = pressures[i];
+                            if (StringBuffer.startsWith("OTL")) locpress = pressures[i];
+                            if (StringBuffer.startsWith("SMA")) smapress = pressures[i];
 
                             if (keeponseparated(separated, WINDDIR_IDX, WINDSPD_IDX)) {
                                 wind_dir[i] = Double.parseDouble(separated[WINDDIR_IDX]);
                                 wind_strength[i] = Double.parseDouble(separated[WINDSPD_IDX]);
                                 wind_str[i] = wind_locations[i] + " " + deg2abc(wind_dir[i]).trim() + wind_strength[i];
-                                if (StringBuffer.substring(0, 3).equals("NEU"))
+                                if (StringBuffer.startsWith("NEU"))
                                     neuwnd = wind_strength[i];
                             }
                         }
@@ -550,7 +546,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }
 
         public String deg2abc(double deg) {
-            String str = new String();
+            String str = "";
             if (deg <= 203 && deg > 157) {
                 str = " S@";
             } else if (deg > 203 && deg <= 248) {
@@ -586,11 +582,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             datenow = new Date();
             diff = datenow.getTime() - tlastneuoverride.getTime();
             diffMinutes = diff / (60 * 1000);
-            if (diffMinutes <= 90) {
-                return (true);
-            } else {
-                return (false);
-            }
+            return diffMinutes <= 90;
         }
 
         public void fortyfiveminutestoolate(double tdeltapress) {

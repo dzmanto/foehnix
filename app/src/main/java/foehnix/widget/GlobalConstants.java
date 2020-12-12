@@ -96,35 +96,35 @@ public class GlobalConstants {
     }
 
     double getLastButOneDeltaPress() {
-        return (this.getSharedDouble("lastbutonedeltapress", this.tcontext));
+        return (getSharedDouble("lastbutonedeltapress", this.tcontext));
     }
 
     void setLastButOneDeltaPress(double lbodp) {
-        this.storeSharedDouble("lastbutonedeltapress", lbodp, this.tcontext);
+        storeSharedDouble("lastbutonedeltapress", lbodp, this.tcontext);
     }
 
     double getLastDeltaPress() {
-        return (this.getSharedDouble("lastdeltapress", this.tcontext));
+        return (getSharedDouble("lastdeltapress", this.tcontext));
     }
 
     void setLastDeltaPress(double ldp) {
-        this.storeSharedDouble("lastdeltapress", ldp, this.tcontext);
+        storeSharedDouble("lastdeltapress", ldp, this.tcontext);
     }
 
     Date getLastDPOverride() {
-        return (this.getSharedDate("lastdpoverride", this.tcontext));
+        return (getSharedDate("lastdpoverride", this.tcontext));
     }
 
     void setLastDPOverride(Date ldpo) {
-        this.storeSharedDate("lastdpoverride", ldpo, this.tcontext);
+        storeSharedDate("lastdpoverride", ldpo, this.tcontext);
     }
 
     Date getLastNeuOverride() {
-        return (this.getSharedDate("lastneuoverride", this.tcontext));
+        return (getSharedDate("lastneuoverride", this.tcontext));
     }
 
     void setLastNeuOverride(Date lno) {
-        this.storeSharedDate("lastneuoverride", lno, this.tcontext);
+        storeSharedDate("lastneuoverride", lno, this.tcontext);
     }
 
     void setContext(Context cntxt) {
