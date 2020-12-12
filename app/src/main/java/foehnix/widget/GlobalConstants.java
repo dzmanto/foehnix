@@ -22,20 +22,20 @@ public class GlobalConstants {
         Date val;
         try {
             val = new Date(prefs.getLong(desc, -1));
-            return (val);
+            return val;
         } catch (Exception e) {
-            return (null);
+            return null;
         }
     }
 
     static double getSharedDouble(String desc, Context cntxt) {
         SharedPreferences prefs = cntxt.getSharedPreferences(cntxt.getResources().getString(R.string.preferences_name), Context.MODE_PRIVATE);
-        return (Double.longBitsToDouble(prefs.getLong(desc, -100)));
+        return Double.longBitsToDouble(prefs.getLong(desc, -100));
     }
 
     static String getSharedString(String desc, Context cntxt) {
         SharedPreferences prefs = cntxt.getSharedPreferences(cntxt.getResources().getString(R.string.preferences_name), Context.MODE_PRIVATE);
-        return (prefs.getString(desc, cntxt.getResources().getString(R.string.stock_dsp)));
+        return prefs.getString(desc, cntxt.getResources().getString(R.string.stock_dsp));
     }
 
     static String produceTexto() {
@@ -46,7 +46,7 @@ public class GlobalConstants {
             }
         }
         texto = trim(texto, '\n', '\n');
-        return (texto);
+        return texto;
     }
 
     static void setPressures(double[] tpressures) {
@@ -95,7 +95,7 @@ public class GlobalConstants {
     }
 
     double getLastButOneDeltaPress() {
-        return (getSharedDouble("lastbutonedeltapress", this.tcontext));
+        return getSharedDouble("lastbutonedeltapress", this.tcontext);
     }
 
     void setLastButOneDeltaPress(double lbodp) {
@@ -103,7 +103,7 @@ public class GlobalConstants {
     }
 
     double getLastDeltaPress() {
-        return (getSharedDouble("lastdeltapress", this.tcontext));
+        return getSharedDouble("lastdeltapress", this.tcontext);
     }
 
     void setLastDeltaPress(double ldp) {
@@ -111,7 +111,7 @@ public class GlobalConstants {
     }
 
     Date getLastDPOverride() {
-        return (getSharedDate("lastdpoverride", this.tcontext));
+        return getSharedDate("lastdpoverride", this.tcontext);
     }
 
     void setLastDPOverride(Date ldpo) {
@@ -119,7 +119,7 @@ public class GlobalConstants {
     }
 
     Date getLastNeuOverride() {
-        return (getSharedDate("lastneuoverride", this.tcontext));
+        return getSharedDate("lastneuoverride", this.tcontext);
     }
 
     void setLastNeuOverride(Date lno) {

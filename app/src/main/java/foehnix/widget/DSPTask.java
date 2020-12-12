@@ -322,17 +322,17 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
         } else if (deg > 113 && deg <= 157) {
             str = "SE@";
         }
-        return (str);
+        return str;
     }
 
     public double rnd1dig(double kritz) {
         kritz = Math.round(10 * kritz);
-        return (kritz / 10);
+        return kritz / 10;
     }
 
     public boolean ninetyminutestoolate(Date tlastneuoverride) {
         if (tlastneuoverride == null) {
-            return (false);
+            return false;
         }
         Date datenow = new Date();
         long diff = datenow.getTime() - tlastneuoverride.getTime();
@@ -362,7 +362,7 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
     public String updownfunkypress(double tdeltapress) {
         // return zero String while nothing is initialized
         if (tconstants.getLastDPOverride() == null || tconstants.getLastDeltaPress() == -100) {
-            return ("");
+            return "";
         }
         Date datenow = new Date();
         long diff = datenow.getTime() - tconstants.getLastDPOverride().getTime();
@@ -375,28 +375,28 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
         }
 
         if (Math.abs(tdeltapress - relpress) < 0.2) {
-            return ("→");
+            return "→";
         }
-        if ((tdeltapress - relpress) > 0) {
-            return ("↑");
+        if (tdeltapress - relpress > 0) {
+            return "↑";
         }
-        return ("↓");
+        return "↓";
     }
 
     public boolean keeponseparated(String[] separated, int first_idx, int second_idx) {
         try {
             String str2proc = separated[first_idx].trim();
             if (str2proc.isEmpty() || str2proc.equals("-")) {
-                return (false);
+                return false;
             }
             str2proc = separated[second_idx].trim();
             if (str2proc.isEmpty() || str2proc.equals("-")) {
-                return (false);
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return (false);
+            return false;
         }
-        return (true);
+        return true;
     }
 }

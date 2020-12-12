@@ -23,7 +23,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     public double rnd1dig(double kritz) {
         kritz = Math.round(10 * kritz);
-        return (kritz / 10);
+        return kritz / 10;
     }
 
     @Override
@@ -213,12 +213,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
         SimpleDateFormat df = new SimpleDateFormat("mm");
         if (disablenite < 5) {
             disablenite++;
-            return (false);
+            return false;
         }
         String mmdate = df.format(c.getTime());
         int mm = Integer.parseInt(mmdate);
         if (mm > -1 && mm < 17) {
-            return (false);
+            return false;
         }
         df = new SimpleDateFormat("HH");
         String hhdate = df.format(c.getTime());
