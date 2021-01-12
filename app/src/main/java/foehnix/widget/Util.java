@@ -4,13 +4,14 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class Util {
 
     public static void scheduleUpdate(Context context) {
         // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         // String interval = prefs.getString(SettingsActivity.INTERVAL_PREF, null);
-
+        Log.w("Util", "run scheduleUpdate");
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         long intervalMillis = 60 * 1000;
 

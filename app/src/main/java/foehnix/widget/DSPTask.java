@@ -23,7 +23,6 @@ import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 public class DSPTask extends AsyncTask<String, Void, Void> {
-    static String formattedDate;
     private final RemoteViews views;
     int WidgetID;
     private String firsttextResult = "";
@@ -247,7 +246,8 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             GlobalConstants.storeSharedDouble("currentdeltapress", deltapress, cntxt);
             fortyfiveminutestoolate(deltapress);
 
-            if (ninetyminutestoolate(tconstants.getLastNeuOverride()) && deltapress <= 3 && deltapress >= -3) {
+            // if (ninetyminutestoolate(tconstants.getLastNeuOverride()) && deltapress <= 3 && deltapress >= -3) {
+            if (deltapress <= 3 && deltapress >= -3) {
                 Log.w("ninetyminutestoolate", "write 1");
                 cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
             } else if (wind_max_idx != -1) {
@@ -269,7 +269,7 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("dd MMM HH:mm");
             MyWidgetProvider.formattedDate = df.format(c.getTime());
-            views.setTextViewText(R.id.updatetime, formattedDate);
+            views.setTextViewText(R.id.updatetime, MyWidgetProvider.formattedDate);
             views.setInt(R.id.updatetime, "setTextColor", Color.WHITE);
             views.setTextViewText(R.id.source, "Source: MeteoSwiss");
             views.setInt(R.id.source, "setTextColor", Color.WHITE);
@@ -278,7 +278,7 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             GlobalConstants.storeSharedString("secondstockview", cpy, cntxt);
             GlobalConstants.storeSharedString("source", "source: MeteoSwiss", cntxt);
             GlobalConstants.storeSharedString("thirdstockview", thirdtextResult, cntxt);
-            GlobalConstants.storeSharedString("updatetime", formattedDate, cntxt);
+            GlobalConstants.storeSharedString("updatetime", MyWidgetProvider.formattedDate, cntxt);
         } else {
             views.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
             views.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
