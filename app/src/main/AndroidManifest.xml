@@ -9,7 +9,8 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/glider2"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true">
         <receiver android:name="foehnix.widget.MyWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
