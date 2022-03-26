@@ -142,8 +142,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
             context.startActivity(i);
         }
 
-        if ("secondstockviewclicked".equalsIgnoreCase(intent.getAction())) {
-            Log.w("secondstockview", "clicked");
+        if ("maxwindviewclicked".equalsIgnoreCase(intent.getAction())) {
+            Log.w("maxwindview", "clicked");
 
             String url = "http://windundwetter.ch/Stations/filter/abo,altd,chu,cim,loc,meir,neu/show/time,wind,windarrow,qff";
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -198,7 +198,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             remoteViews.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_gray);
             remoteViews.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh_gray);
             remoteViews.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
-            remoteViews.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
+            remoteViews.setInt(R.id.maxwindview, "setTextColor", Color.GRAY);
             remoteViews.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
             remoteViews.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
             String surl = context.getString(R.string.meteo_url);
@@ -219,7 +219,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.firststockview, getPendingSelfIntent(context, "firststockviewclicked"));
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
             // Register yet another onClickListener for wind speeds via internet
-            remoteViews.setOnClickPendingIntent(R.id.secondstockview, getPendingSelfIntent(context, "secondstockviewclicked"));
+            remoteViews.setOnClickPendingIntent(R.id.maxwindview, getPendingSelfIntent(context, "maxwindviewclicked"));
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
             // Register still another onClickListener for sharing via text message
             remoteViews.setOnClickPendingIntent(R.id.sharebutton, getPendingSelfIntent(context, "shareactionclicked"));

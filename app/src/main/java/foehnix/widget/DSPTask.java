@@ -36,6 +36,8 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
 
     private double deltapress;
 
+    private double neuwnd = -1;
+
     private double wind_max = -1;
     private int wind_max_idx = -1;
 
@@ -88,7 +90,6 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
         double locpress = -1;
         double lugpress = -1;
         double neudir = -1;
-        double neuwnd = -1;
         double smapress = -1;
         int PRESS_IDX = this.cntxt.getResources().getInteger(R.integer.PRESS_IDX);
         int WINDDIR_IDX = this.cntxt.getResources().getInteger(R.integer.WINDDIR_IDX);
@@ -141,8 +142,10 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
                             wind_dir[i] = Double.parseDouble(separated[WINDDIR_IDX]);
                             wind_strength[i] = Double.parseDouble(separated[WINDSPD_IDX]);
                             wind_str[i] = wind_locations[i] + " " + deg2abc(wind_dir[i]).trim() + wind_strength[i];
-                            if (StringBuffer.startsWith("NEU"))
+                            if (StringBuffer.startsWith("NEU")) {
+                                neudir = wind_dir[i];
                                 neuwnd = wind_strength[i];
+                            }
                         }
                     }
                 }
@@ -247,15 +250,15 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             fortyfiveminutestoolate(deltapress);
 
             // if (ninetyminutestoolate(tconstants.getLastNeuOverride()) && deltapress <= 3 && deltapress >= -3) {
-            if (deltapress <= 3 && deltapress >= -3) {
+            if (deltapress <= 3 && deltapress >= -3 && neuwnd >= 40) {
                 Log.w("ninetyminutestoolate", "write 1");
                 cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
             } else if (wind_max_idx != -1) {
-                Log.w("ninetyminutestoolate", "write 2");
+                Log.w("ninetyminutestoolate", "write 2 , wind_max_idx: " + wind_max_idx);
                 cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + wind_locations[wind_max_idx] + " wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
             }
 
-            views.setTextViewText(R.id.secondstockview, Html.fromHtml(cpy));
+            views.setTextViewText(R.id.maxwindview, Html.fromHtml(cpy));
             views.setTextViewText(R.id.thirdstockview, Html.fromHtml(this.cntxt.getString(R.string.marquee_text, thirdtextResult)));
         }
 
@@ -263,7 +266,7 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             views.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_white);
             views.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh);
             views.setInt(R.id.firststockview, "setTextColor", Color.WHITE);
-            views.setInt(R.id.secondstockview, "setTextColor", Color.WHITE);
+            views.setInt(R.id.maxwindview, "setTextColor", Color.WHITE);
             views.setInt(R.id.thirdstockview, "setTextColor", Color.WHITE);
 
             Calendar c = Calendar.getInstance();
@@ -275,13 +278,13 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             views.setInt(R.id.source, "setTextColor", Color.WHITE);
 
             GlobalConstants.storeSharedString("firststockview", firsttextResult, cntxt);
-            GlobalConstants.storeSharedString("secondstockview", cpy, cntxt);
+            GlobalConstants.storeSharedString("maxwindview", cpy, cntxt);
             GlobalConstants.storeSharedString("source", "source: MeteoSwiss", cntxt);
             GlobalConstants.storeSharedString("thirdstockview", thirdtextResult, cntxt);
             GlobalConstants.storeSharedString("updatetime", MyWidgetProvider.formattedDate, cntxt);
         } else {
             views.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
-            views.setInt(R.id.secondstockview, "setTextColor", Color.GRAY);
+            views.setInt(R.id.maxwindview, "setTextColor", Color.GRAY);
             views.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
             views.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
             views.setInt(R.id.source, "setTextColor", Color.GRAY);
@@ -292,7 +295,7 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             String interimresult = GlobalConstants.getSharedString("firststockview", cntxt);
             String interimcpy = "<html><a href=\"http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html\">" + "Δp Lugano-Kloten " + "</a><b> " + interimresult + " hPa" + "</b></html>";
             views.setTextViewText(R.id.firststockview, Html.fromHtml(interimcpy));
-            views.setTextViewText(R.id.secondstockview, Html.fromHtml(GlobalConstants.getSharedString("secondstockview", cntxt)));
+            views.setTextViewText(R.id.maxwindview, Html.fromHtml(GlobalConstants.getSharedString("maxwindview", cntxt)));
             views.setTextViewText(R.id.thirdstockview, GlobalConstants.getSharedString("thirdstockview", cntxt));
             views.setTextViewText(R.id.source, GlobalConstants.getSharedString("source", cntxt));
             views.setTextViewText(R.id.updatetime, GlobalConstants.getSharedString("updatetime", cntxt));

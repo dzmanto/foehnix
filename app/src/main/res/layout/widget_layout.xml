@@ -20,7 +20,7 @@
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/secondstockview"
+        android:id="@+id/maxwindview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/firststockview"
@@ -36,8 +36,8 @@
         android:id="@+id/thirdstockview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/secondstockview"
-        android:layout_alignLeft="@+id/secondstockview"
+        android:layout_below="@+id/maxwindview"
+        android:layout_alignLeft="@+id/maxwindview"
         android:layout_marginTop="9dp"
         android:layout_marginRight="60dip"
         android:focusable="true"
@@ -51,8 +51,8 @@
         android:id="@+id/thirdstockview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/secondstockview"
-        android:layout_alignLeft="@+id/secondstockview"
+        android:layout_below="@+id/maxwindview"
+        android:layout_alignLeft="@+id/maxwindview"
         android:layout_marginTop="9dp"
         android:layout_marginRight="60dip"
         android:duplicateParentState="true"
