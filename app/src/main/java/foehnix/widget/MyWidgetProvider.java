@@ -135,7 +135,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         if ("firststockviewclicked".equalsIgnoreCase(intent.getAction())) {
             Log.w("firststockview", "clicked");
 
-            String url = "http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html";
+            String url = context.getString(R.string.foehn_url);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setData(Uri.parse(url));

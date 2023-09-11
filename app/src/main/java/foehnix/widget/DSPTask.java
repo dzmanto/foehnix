@@ -200,7 +200,14 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
                 if (wind_max_idx != -1) {
                     secondtextResult = deg2abc(wind_dir[wind_max_idx]) + rnd1dig(wind_strength[wind_max_idx]);
                 } else {
-                    secondtextResult = deg2abc(wind_dir[0]) + rnd1dig(wind_strength[0]);
+                    // determine the most windy location in the south
+                    for (int i = 0; i < wind_locations.length; i++) {
+                        if (wind_locations_ns[i].equals("s") && wind_locations_show_marquee[i].equals("y") && wind_strength[i] > wind_max) {
+                            wind_max = wind_strength[i];
+                            wind_max_idx = i;
+                        }
+                    }
+                    secondtextResult = deg2abc(wind_dir[wind_max_idx]) + rnd1dig(wind_strength[wind_max_idx]);
                 }
             } else {
                 wind_max = -1;
@@ -211,10 +218,18 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
                         wind_max_idx = i;
                     }
                 }
+
                 if (wind_max_idx != -1) {
                     secondtextResult = deg2abc(wind_dir[wind_max_idx]) + rnd1dig(wind_strength[wind_max_idx]);
                 } else {
-                    secondtextResult = deg2abc(wind_dir[0]) + rnd1dig(wind_strength[0]);
+                    // determine the most windy location in the north
+                    for (int i = 0; i < wind_locations.length; i++) {
+                        if (wind_locations_ns[i].equals("n") && wind_locations_show_marquee[i].equals("y") && wind_strength[i] > wind_max) {
+                            wind_max = wind_strength[i];
+                            wind_max_idx = i;
+                        }
+                    }
+                    secondtextResult = deg2abc(wind_dir[wind_max_idx]) + rnd1dig(wind_strength[wind_max_idx]);
                 }
             }
 
@@ -249,15 +264,15 @@ public class DSPTask extends AsyncTask<String, Void, Void> {
             GlobalConstants.storeSharedDouble("currentdeltapress", deltapress, cntxt);
             fortyfiveminutestoolate(deltapress);
 
-            // if (ninetyminutestoolate(tconstants.getLastNeuOverride()) && deltapress <= 3 && deltapress >= -3) {
             if (deltapress <= 3 && deltapress >= -3 && neuwnd >= 40) {
                 Log.w("ninetyminutestoolate", "write 1");
+                cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
+            } else if (ninetyminutestoolate(tconstants.getLastNeuOverride()) && deltapress <= 3 && deltapress >= -3) {
                 cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + "Neuchâtel wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
             } else if (wind_max_idx != -1) {
                 Log.w("ninetyminutestoolate", "write 2 , wind_max_idx: " + wind_max_idx);
                 cpy = "<html><a href=\"http://windundwetter.ch/Stations/filter/alt/show/time,wind,windarrow,qff\">" + wind_locations[wind_max_idx] + " wind max " + "</a><b> " + secondtextResult + " km/h</b></html>";
             }
-
             views.setTextViewText(R.id.maxwindview, Html.fromHtml(cpy));
             views.setTextViewText(R.id.thirdstockview, Html.fromHtml(this.cntxt.getString(R.string.marquee_text, thirdtextResult)));
         }
