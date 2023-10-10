@@ -12,6 +12,7 @@
     <string name="loud">Loud text here: &lt;b>%s&lt;/b></string>
     <string name="marquee_text">&lt;marquee behavior=&quot;scroll&quot; direction="left" scrollamount=&quot;200&quot;>%s&lt;/marquee></string>
     <string name="meteo_url">https://data.geo.admin.ch/ch.meteoschweiz.messwerte-aktuell/VQHA80.csv</string>
+    <string name="foehn_url">https://wetterring.at/profiwetter/foehndiagramm-vorarlberg</string>
 
     <string-array name="wind_locations">
         <item>Adelboden</item>
