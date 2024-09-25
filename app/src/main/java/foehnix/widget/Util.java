@@ -4,6 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 
 public class Util {
@@ -20,18 +24,29 @@ public class Util {
         am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), intervalMillis, pi);
     }
 
-    private static PendingIntent getAlarmIntent(Context context) {
+    public static PendingIntent getAlarmIntent(Context context) {
         Intent intent = new Intent(context, MyWidgetProvider.class);
         intent.setAction(MyWidgetProvider.ACTION_TRSH);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    public static void clearUpdate(Context context) {
-        cancelAlarm(context, getAlarmIntent(context));
-    }
 
     public static void cancelAlarm(Context context, PendingIntent pi) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        if(html == null) {
+            // return an empty spannable if the html is null
+            return new SpannableString("");
+        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // FROM_HTML_MODE_LEGACY is the behaviour that was used for versions below android N
+            // we are using this flag to give a consistent behaviour
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(html);
+        }
     }
 }

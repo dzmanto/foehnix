@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
     project.archivesBaseName = "foehnix"
 
     defaultConfig {
         applicationId "foehnix.widget"
         minSdkVersion 14
-        targetSdkVersion 29
-        versionCode 36
-        versionName "3.6"
+        versionCode 40
+        versionName "4.0"
     }
 
     buildTypes {
@@ -36,12 +35,16 @@ android {
     lintOptions {
         disable 'GoogleAppIndexingWarning'
     }
-
     packagingOptions {
-        exclude 'META-INF/*'
+        jniLibs {
+            excludes += ['META-INF/*']
+        }
+        resources {
+            excludes += ['META-INF/*']
+        }
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }

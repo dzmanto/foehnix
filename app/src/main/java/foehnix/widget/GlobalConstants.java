@@ -2,15 +2,25 @@ package foehnix.widget;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Base64;
 import java.util.Date;
 
 public class GlobalConstants {
     static double[] pressures;
     static double[] wind_dir;
     static String[] wind_locations_show_marquee;
+    static String wind_locations_show_marquee_b64;
     static double[] wind_strength;
     static String[] wind_str;
+    static String wind_str_b64;
     private final Context tcontext;
 
     public GlobalConstants(Context cntxt) {
@@ -40,33 +50,121 @@ public class GlobalConstants {
 
     static String produceTexto() {
         String texto = "";
-        for (int i = 0; i < wind_locations_show_marquee.length; i++) {
-            if (wind_locations_show_marquee[i].equals("y")) {
-                texto = texto + wind_str[i] + "\n";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                byte [] data = Base64.getDecoder().decode(wind_locations_show_marquee_b64);
+                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                String[] wsm;
+                wsm = (String[]) ois.readObject();
+                ois.close();
+                data = Base64.getDecoder().decode(wind_str_b64);
+                ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                String[] ws;
+                ws = (String[]) ois.readObject();
+                ois.close();
+
+                for (int i = 0; i < wsm.length; i++) {
+                    if (wsm[i].equals("y")) texto = texto + ws[i] + "\n";
+                }
+                texto = trim(texto, '\n', '\n');
+            } catch(java.io.IOException e) {
+                Log.w("produceTexto...",e.toString());
+            } catch(java.lang.ClassNotFoundException f) {
+                Log.w("produceTexto...",f.toString());
             }
+        } else {
+            for (int i = 0; i < wind_locations_show_marquee.length; i++) {
+                if (wind_locations_show_marquee[i].equals("y")) {
+                    texto = texto + wind_str[i] + "\n";
+                }
+            }
+            texto = trim(texto, '\n', '\n');
         }
-        texto = trim(texto, '\n', '\n');
         return texto;
     }
 
-    static void setPressures(double[] tpressures) {
-        pressures = tpressures.clone();
+    static String produceTexto(Context cntxt) {
+        String texto = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                String wind_locations_show_marquee_shared = getSharedString("wind_locations_show_marquee", cntxt);
+                byte [] data = Base64.getDecoder().decode(wind_locations_show_marquee_shared);
+                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                String[] wsm;
+                wsm = (String[]) ois.readObject();
+                ois.close();
+                String wind_str_shared= getSharedString("wind_str", cntxt);
+                data = Base64.getDecoder().decode(wind_str_shared);
+                ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                String[] ws;
+                ws = (String[]) ois.readObject();
+                ois.close();
+
+                for (int i = 0; i < wsm.length; i++) {
+                    if (wsm[i].equals("y")) texto = texto + ws[i] + "\n";
+                }
+                texto = trim(texto, '\n', '\n');
+            } catch(java.io.IOException e) {
+                Log.w("produceTexto...",e.toString());
+            } catch(java.lang.ClassNotFoundException f) {
+                Log.w("produceTexto...",f.toString());
+            }
+        } else {
+            for (int i = 0; i < wind_locations_show_marquee.length; i++) {
+                if (wind_locations_show_marquee[i].equals("y")) {
+                    texto = texto + wind_str[i] + "\n";
+                }
+            }
+            texto = trim(texto, '\n', '\n');
+        }
+        return texto;
     }
 
-    static void setWindDir(double[] twind_dir) {
-        wind_dir = twind_dir.clone();
-    }
-
-    static void setWindStrength(double[] twind_strength) {
-        wind_strength = twind_strength.clone();
-    }
-
-    static void setWindStr(String[] twind_str) {
+    static void setWindStr(String[] twind_str, Context cntxt) {
         wind_str = twind_str.clone();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(twind_str);
+                oos.close();
+                wind_str_b64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+                storeSharedString("wind_str", wind_str_b64, cntxt);
+            } catch(IOException e) {
+                Log.w("setWindStr...",e.toString());
+            }
+        }
     }
 
     static void setWindLocationsShowMarquee(String[] twind_locations_show_marquee) {
         wind_locations_show_marquee = twind_locations_show_marquee.clone();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(twind_locations_show_marquee);
+                oos.close();
+                wind_locations_show_marquee_b64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+            } catch(IOException e) {
+                Log.w("setWindLocations...",e.toString());
+            }
+        }
+    }
+
+    static void setWindLocationsShowMarquee(String[] twind_locations_show_marquee, Context cntxt) {
+        wind_locations_show_marquee = twind_locations_show_marquee.clone();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(twind_locations_show_marquee);
+                oos.close();
+                wind_locations_show_marquee_b64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+                storeSharedString("wind_locations_show_marquee", wind_locations_show_marquee_b64, cntxt);
+            } catch(IOException e) {
+                Log.w("setWindLocations...",e.toString());
+            }
+        }
     }
 
     static void storeSharedDate(String desc, Date val, Context cntxt) {

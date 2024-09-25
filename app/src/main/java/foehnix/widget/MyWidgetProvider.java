@@ -1,5 +1,10 @@
 package foehnix.widget;
 
+import static android.content.Context.POWER_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,25 +12,27 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
+import android.os.StrictMode;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class MyWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_TRSH = "TRSH";
     static String formattedDate;
     static int disablenite = 0;
-    private GlobalConstants tconstants;
+    // private GlobalConstants tconstants;
 
     public double rnd1dig(double kritz) {
         kritz = Math.round(10 * kritz);
@@ -67,10 +74,27 @@ public class MyWidgetProvider extends AppWidgetProvider {
         super.onDisabled(context);
     }
 
+    @SuppressLint("BatteryLife")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onEnabled(Context context) {
         Log.w("AlarmManager", "run enablement proc");
+
+        // try strict mode to investigate leaks
+        StrictMode.enableDefaults();
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = context.getPackageName();
+            PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        }
 
         Intent intent = new Intent("ContactWidgetUpdate");
         // ComponentName cn = new ComponentName("foehnix.widget", "foehnix.widget.MyWidgetProvider");
@@ -86,16 +110,18 @@ public class MyWidgetProvider extends AppWidgetProvider {
         cal.add(Calendar.SECOND, 30);
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 60* 1000, anIntent);
         */
-        this.tconstants = new GlobalConstants(context);
+        // this.tconstants = new GlobalConstants(context);
         super.onEnabled(context);
     }
 
-    public void onReceive(Context context, Intent intent) {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void onReceive(Context context, @NonNull Intent intent) {
         Log.w(this.getClass().getName(), "onReceive: intent=" + intent);
 
         if ("TRSH".equalsIgnoreCase(intent.getAction())) {
             Log.w("TRSH", "trash");
             if (formattedDate == null) {
+                Log.d("TRSH", "formattedDate is null => commencing updateWidgetIds");
                 updateWidgetIds(context);
             }
         }
@@ -135,7 +161,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
         if ("firststockviewclicked".equalsIgnoreCase(intent.getAction())) {
             Log.w("firststockview", "clicked");
 
-            String url = "http://www.meteocentrale.ch/en/weather/foehn-and-bise/foehn.html";
+            String url = context.getString(R.string.foehn_url);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setData(Uri.parse(url));
@@ -159,12 +185,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
             double currentdeltapress = GlobalConstants.getSharedDouble("currentdeltapress", context);
             if (currentdeltapress != -100) {
                 // Add data to the intent, the receiving app will decide what to do with it.
                 String txtmsg = "Δp Lugano-Kloten " + rnd1dig(currentdeltapress) + " hPa\nwind gusts [km/h]:";
-                txtmsg = txtmsg + "\n" + GlobalConstants.produceTexto();
+                txtmsg = txtmsg + "\n" + GlobalConstants.produceTexto(context);
                 i.putExtra(Intent.EXTRA_SUBJECT, "foehnix brief");
                 i.putExtra(Intent.EXTRA_TEXT, txtmsg);
                 context.startActivity(i);
@@ -183,7 +209,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }
 
         if (intent.getAction().toLowerCase().indexOf("enabled") > 0) {
-            onEnabled(context);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                onEnabled(context);
+            }
         }
     }
 
@@ -196,17 +224,27 @@ public class MyWidgetProvider extends AppWidgetProvider {
         for (int widgetId : allWidgetIds) {
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
             remoteViews.setInt(R.id.sharebutton, "setBackgroundResource", R.drawable.share_icon_gray);
+            Log.w(this.getClass().getName(), "gray out updatebutton");
             remoteViews.setInt(R.id.updatebutton, "setBackgroundResource", R.drawable.refresh_gray);
             remoteViews.setInt(R.id.firststockview, "setTextColor", Color.GRAY);
             remoteViews.setInt(R.id.maxwindview, "setTextColor", Color.GRAY);
             remoteViews.setInt(R.id.thirdstockview, "setTextColor", Color.GRAY);
             remoteViews.setInt(R.id.updatetime, "setTextColor", Color.GRAY);
+            // updateAppWidget must be called for these changes to take effect
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
             String surl = context.getString(R.string.meteo_url);
+            /*
             if (this.tconstants == null) {
                 Log.w("onUpdate", "enabling tconstants");
                 this.tconstants = new GlobalConstants(context);
             }
-            new DSPTask(context, remoteViews, this.tconstants, widgetId, appWidgetManager, R.id.firststockview).execute(surl);
+            */
+            // new DSPTask(context, remoteViews, this.tconstants, widgetId, appWidgetManager, R.id.firststockview).execute(surl);
+
+            // Log.w(this.getClass().getName(), "before start of FTask");
+            // new FTask(context, remoteViews, widgetId, appWidgetManager, R.id.firststockview, surl);
+            Log.w(this.getClass().getName(), "before start of ETask");
+            new ETask(context, remoteViews, widgetId, appWidgetManager, R.id.firststockview, surl);
 
             // Register an onClickListener
             Intent intent = new Intent(context, MyWidgetProvider.class);
