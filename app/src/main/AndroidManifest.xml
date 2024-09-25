@@ -43,12 +43,8 @@
         <activity
             android:name="foehnix.widget.MyMainActivity"
             android:label="@string/app_name"
-<<<<<<< HEAD
             android:theme="@style/Theme.AppCompat"
             android:exported="true">
-=======
-            android:theme="@style/Theme.AppCompat">
->>>>>>> 7a359bb00fe288fb171b1587c440cb9b40504bfb
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
