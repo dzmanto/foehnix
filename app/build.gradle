@@ -8,8 +8,14 @@ android {
     defaultConfig {
         applicationId "foehnix.widget"
         minSdkVersion 14
+<<<<<<< HEAD
         versionCode 40
         versionName "4.0"
+=======
+        targetSdkVersion 29
+        versionCode 38
+        versionName "3.8"
+>>>>>>> 7a359bb00fe288fb171b1587c440cb9b40504bfb
     }
 
     buildTypes {

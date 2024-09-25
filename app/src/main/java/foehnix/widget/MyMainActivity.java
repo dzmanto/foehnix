@@ -1,5 +1,6 @@
 package foehnix.widget;
 
+<<<<<<< HEAD
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,6 +12,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+=======
+import android.os.Bundle;
+import android.text.Html;
+import android.widget.TextView;
+
+>>>>>>> 7a359bb00fe288fb171b1587c440cb9b40504bfb
 import androidx.appcompat.app.AppCompatActivity;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -19,6 +26,7 @@ public class MyMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< HEAD
         // try strict mode to investigate leaks
         StrictMode.enableDefaults();
 
@@ -31,8 +39,14 @@ public class MyMainActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+=======
+>>>>>>> 7a359bb00fe288fb171b1587c440cb9b40504bfb
         TextView welcomeMessageTV = new TextView(this);
         welcomeMessageTV.setText(Html.fromHtml("<h2>How to install the föhnix widget<h2><ul><<li> Tap on the home screen</li><li>Select <i>widgets<</i></li><li> Select the föhnix widget from the list</li><li> Arrange the föhnix widget on the screen</li></ul>"));
         setContentView(welcomeMessageTV);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a359bb00fe288fb171b1587c440cb9b40504bfb
 }
